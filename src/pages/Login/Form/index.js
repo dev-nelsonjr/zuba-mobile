@@ -6,7 +6,7 @@ import styled from 'styled-components/native'
 import { Box, Field, Button, font, margin } from '~/components'
 
 // const Link = styled(RouterLink)`
-// text-decoration: none;
+// text-decoration: none
 // ${font}
 // ${margin}
 // `

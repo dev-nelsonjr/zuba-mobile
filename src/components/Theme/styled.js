@@ -14,16 +14,15 @@ export const flexbox = props => {
   const alignItems = props.alignItems || (props.center && 'center' )
 
   return `
-  ${getIf(props.flex, `flex: ${props.flex};`)}
-    ${getIf(props.flexbox, `display: flex;`)}
+    ${getIf(props.flex, `flex: ${props.flex};`)}
     ${getIf(direction, `flex-direction: ${direction};`)}
     ${getIf(justifyContent, `justify-content: ${justifyContent};`)}
     ${getIf(alignItems, `align-items: ${alignItems};`)}
   `
 }
 
-export const background = ({ bg, theme }) =>
-  getIf(bg, `background-color: ${theme.colors[bg] || bg};`)
+export const background = props =>
+  getIf(props.bg, `background-color: ${props.theme.colors[props.bg] || props.bg};`)
 
   export const font = props => {
       const color = getIf(props.color, `color: ${props.theme.colors[props.color] || props.color};`)
