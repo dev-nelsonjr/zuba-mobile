@@ -1,20 +1,28 @@
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import * as React from 'react';
+import { StatusBar, StatusBarStyle } from 'react-native';
 
-export const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+import { Box, SafeArea, Text } from '~/components/uikit';
+import { definitions } from '~/components/Theme';
 
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NewAppScreen templateFileName="App.tsx" />
-    </View>
-  );
+interface ScreenProps {
+  bg?: keyof typeof definitions.colors;
+  barStyle?: StatusBarStyle;
+  children: React.ReactNode;
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+const Screen = ({ bg = 'raisinBlack', barStyle = 'light-content', children }: ScreenProps) => (
+  <SafeArea bg={bg} flex={1}>
+    <StatusBar barStyle={barStyle} />
+    <Box flex={1} p={4} center>
+      {children}
+    </Box>
+  </SafeArea>
+);
 
+export const App = () => (
+  <Screen>
+    <Text>
+      Welcome to the App!
+    </Text>
+  </Screen>
+)

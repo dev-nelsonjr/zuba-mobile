@@ -17,6 +17,8 @@
     "formik": "^2.4.6",
     "react": "19.1.0",
     "react-native": "0.80.0",
+    "react-native-safe-area-context": "^5.5.0",
+    "react-native-screens": "^4.11.1",
     "styled-components": "^6.1.19",
     "yup": "^1.6.1"
   },
