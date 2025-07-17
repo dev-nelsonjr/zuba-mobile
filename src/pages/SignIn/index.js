@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StatusBar } from 'react-native';
 
-import { Box, SafeArea } from '~/components/uikit';
+import { SafeArea, Logo, Box, Text } from '~/components/uikit';
 
 import { Form } from './SignIn/Form';
 
@@ -15,7 +15,14 @@ const Screen = ({ bg = 'raisinBlack', barStyle = 'light-content', children, ...p
 )
 
 export const SignIn = ({}) => (
-  <Screen p={3}>
+  <Screen p={3} justifyContent="center">
+    <Logo flex={1} center />
+
+    <Box flex ={1}>
+    <Text fontSize={6} textAlign="center">SignIn</Text>
     <Form/>
+    </Box>
+
+    <Box flex={1} />
   </Screen>
 )
