@@ -1,22 +1,14 @@
 import * as yup from 'yup'
 import { useFormik } from 'formik'
-import styled from 'styled-components/native'
 
-
-import { Box, Field, Button, font, margin } from '~/components'
-
-// const Link = styled(RouterLink)`
-// text-decoration: none
-// ${font}
-// ${margin}
-// `
+import { Box, Field, Button, Text} from '~/components'
 
 const  validationSchema = yup.object().shape({
   email: yup.string().required('Email is required.').email('Enter a valid email address.'),
   password: yup.string().required('A password is required.')
 })
 
-export const Form =({ onSubmit }) => {
+export const Form =({ onSubmit, onSignupPress }) => {
   const { values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, isValid } = useFormik({
     onSubmit,
     validationSchema,
@@ -54,10 +46,18 @@ export const Form =({ onSubmit }) => {
       />
 
       <Box center>
-        <Button loading={isSubmitting} disabled={!isValid} onPress={handleSubmit} m={1}>Sign in</Button>
+        <Button
+            label="Sign In"
+            loading={isSubmitting}
+            disabled={!isValid}
+            onPress={handleSubmit}
+            m={1}
+           />
 
-        <Box m={1} fontSize={1} color="gray"> Don't have an account? {' '}
-         <Link to="/signup" color="gray" fontWeight="bold">Sign Up!</Link>
+        <Box m={1} fontSize={1} color="gray">
+          <Text>Don't have an account?{' '}
+         <Text color="gray" fontWeight="bold" onPress={onSignupPress}>Sign Up!</Text>
+         </Text>
         </Box>
       </Box>
     </>

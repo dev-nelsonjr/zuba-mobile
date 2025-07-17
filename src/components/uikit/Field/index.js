@@ -13,16 +13,30 @@ color: ${th.color('red')};
 padding: ${th.space(0)}px ${th.space(3)}px;
 font-size: ${th.size(2)}px;
 `
-
+getStyledProps()
 export const Field = ({
+  textContentType,
+  name,
   label,
+  placeholder,
+  placeholderTextColor,
   error,
+  disabled,
+  value,
+  onChangeText,
+  onBlur,
   ...props
 }) => (
-  <Box>
+  <Box {...props}>
     <Label>{label}</Label>
     <Input
-      {...props}
+      textContentType={textContentType}
+      placeholderTextColor={placeholderTextColor}
+      value={value}
+      placeholder={placeholder}
+      disabled={disabled}
+      onChangeText={onChangeText}
+      onBlur={onBlur}
       hasError={!!error}
     />
   {error && <ErrorMessage>{error}</ErrorMessage>}
