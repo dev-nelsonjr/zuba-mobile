@@ -21,26 +21,24 @@ export const Form =({ onSubmit, onSignupPress }) => {
     <>
       <Field
         type="text"
-        name="email"
         label="E-mail"
         placeholder="Enter your email"
         value={values.email}
         error={touched.email && errors.email}
-        onChange={handleChange}
-        onBlur={handleBlur}
+        onChangeText={handleChange('username')}
+        onBlur={handleBlur('username')}
         disabled={isSubmitting}
         mb={3}
       />
 
       <Field
         type="password"
-        name="password"
         label="Password"
         placeholder={"Enter your password"}
         value={values.password}
         error={touched.password && errors.password}
-        onChange={handleChange}
-        onBlur={handleBlur}
+        onChangeText={handleChange('password')}
+        onBlur={handleBlur('username')}
         disabled={isSubmitting}
         mb={3}
       />
