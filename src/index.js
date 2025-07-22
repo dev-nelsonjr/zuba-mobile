@@ -6,7 +6,9 @@ import { App } from './pages'
 export const Main = () => {
   return (
     <Theme>
-      <App />
+      <AuthProvide>
+        <App />
+      </AuthProvide>
     </Theme>
   )
 }

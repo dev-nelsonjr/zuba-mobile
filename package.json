@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@emotion/unitless": "^0.10.0",
+    "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-native/new-app-screen": "0.80.0",
     "@react-navigation/native": "^7.1.14",
     "@react-navigation/stack": "^7.4.2",

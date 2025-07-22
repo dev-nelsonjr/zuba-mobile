@@ -2,6 +2,7 @@ import * as React from 'react';
 import { StatusBar } from 'react-native';
 
 import { SafeArea, Logo, Box, Text } from '~/components/uikit';
+import { useAuth } from '~/components/modules';
 
 import { Form } from './SignIn/Form';
 
@@ -14,15 +15,27 @@ const Screen = ({ bg = 'raisinBlack', barStyle = 'light-content', children, ...p
   </SafeArea>
 )
 
-export const SignIn = ({}) => (
+export const SignIn = () => {
+  const [, { login: setAuth }] = useAuth()
+
+  const onSubmit = (values) => {
+    //axios.post
+    setAuth({
+      token: 123,
+      user: values
+    })
+  }
+
+  return (
   <Screen p={3} justifyContent="center">
     <Logo flex={1} center />
 
-    <Box flex ={1}>
+    <Box>
     <Text fontSize={6} textAlign="center">SignIn</Text>
-    <Form/>
+    <Form onSubmit={onSuccess}/>
     </Box>
 
     <Box flex={1} />
   </Screen>
-)
+  )
+}

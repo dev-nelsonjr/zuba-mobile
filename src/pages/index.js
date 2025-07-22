@@ -1,13 +1,15 @@
-import 'react-native-gesture-handler';
-import * as React from 'react';
+import 'react-native-gesture-handler'
+import * as React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack'
 
-import { SignIn } from './SignIn';
-import { Dashboard } from './Dashboard';
+import { useAuth } from '~/components'
+
+import { SignIn } from './SignIn'
+import { Dashboard } from './Dashboard'
 
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 
 const AuthStack = () =>(
   <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -22,7 +24,7 @@ const LoggedInStack = () => (
 )
 
 export const App = () => {
-  const [auth] = [{ user: false }]
+  const [auth] = useAuth()
     return(
     <NavigationContainer>
       {auth?.user ? <LoggedInStack /> : <AuthStack />}
