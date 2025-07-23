@@ -1,48 +1,59 @@
-import * as React from 'react';
-import { createContext, useState, useEffect, useContext } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as React from 'react'
+import { createContext, useState, useEffect, useContext } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const AuthContext = createContext( [{}, () => ({})]);
+const AuthContext = createContext( [{}, () => ({})])
 
 export const useAuth = () => {
-  const [state, setState] = useContext(AuthContext);
+  const [state, setState] = useContext(AuthContext)
   const logout = () => setState(false)
 
-  return [state, { login: setState, logout }];
+  return [state, { login: setState, logout }]
 }
-export const AuthProvider = ({ children }) => {
-  const [state, setState] = useState(() =>{})
 
-  const setData = async(value) => {
+export const AuthProvider = ({ children }) => {
+  const [state, setState] = useState({
+    rehydrated: false,
+  })
+
+  const setStateContent = (data) => setState(prev => ({
+    ...prev,
+    ...data,
+  }))
+
+  const setItem = async(value) => {
     try {
-    await AsyncStorage.seItem('auth', state &&JSON.stringify(value))
+    await AsyncStorage.setItem('auth01', value && JSON.stringify(value))
    } catch(err) {
     console.log(err)
    }
   }
 
-  const getData = async() => {
+  const getItem = async() => {
     try {
-      const data = await AsyncStorage.getItem('auth')
+      const data = await AsyncStorage.getItem('auth01')
 
-      if(data !== null) {
-        setState(data)
-      }
+      setState(prev => ({
+        ...prev,
+        ...data !== null && JSON.parse(data),
+        rehydrated: true
+      }))
+
     } catch(e) {
       console.log(e)
     }
   }
 
   useEffect(() => {
-    setData(state)
-  }, [state])
+    state?.rehydrated && setItem(state)
+  }, [JSON.stringify(state)])
 
   useEffect( () => {
-    getData()
+    getItem()
   }, [])
 
   return (
-  <AuthContext.Provider value={[state, setState]}>
+  <AuthContext.Provider value={[state, setStateContent]}>
     {children}
   </AuthContext.Provider>
 )
