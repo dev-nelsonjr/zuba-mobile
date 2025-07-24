@@ -1,13 +1,22 @@
 import * as React from 'react';
-import { render, screen} from '@testing-library/react-native';
+import { fireEvent, render } from '@testing-library/react-native';
+import axios from 'axios'
 
-import { Theme } from '../components/Theme';
-import { AuthProvider } from '../components/Modules';
+
+import { Theme } from '~/components/Theme';
+import { AuthProvider } from '~/components/Modules';
 
 import { App } from './';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+jest.mock('axios')
+
+beforeEach(async() => {
+  await AsyncStorage.clear()
+})
 
 test('should show login form', async () => {
-  render(
+  const screen = render(
     <Theme>
      <AuthProvider>
         <App />
@@ -15,7 +24,56 @@ test('should show login form', async () => {
     </Theme>
   )
 
-  const emailInput = await screen.findByText('E-mail');
+  const emailInput = screen.getByText('E-mail');
+  const passwordInput = screen.getByText('Password');
+  const submitBtn = screen.getByText('Sign in');
+  const signupLink = screen.getByText('Sign Up!');
 
   expect(emailInput).toBeTruthy()
+  expect(passwordInput).toBeTruthy()
+  expect(submitBtn).toBeTruthy()
+  expect(signupLink).toBeTruthy()
+})
+
+test('should login user and redirect when API return success' , async() => {
+  const credentials = {
+    email: 'n2test@gmail.com',
+    password: '123456',
+  }
+
+  axios.post.mockImplementation(() => Promise.resolve({
+    data: {
+      user: {
+        id: 1,
+        name: 'n2test 123',
+        email: credentials.email,
+      },
+      token: '123',
+    }
+  })
+)
+const screen = render(
+  <Theme>
+   <AuthProvider>
+      <App />
+    </AuthProvider>
+  </Theme>
+)
+
+const emailInput = screen.getByText('E-mail');
+const passwordInput = screen.getByText('Password');
+const submitBtn = screen.getByText('Sign in');
+
+  fireEvent.changeText(emailInput, credentials.email)
+  fireEvent.changeText(passwordInput, credentials.password)
+  fireEvent.press(submitBtn)
+
+  expect(submitBtn).toBeDisabled()
+
+await waitFor(() =>
+expect(axios.post).toHaveBeenCalledWith('http://localhost:9901/login', {
+  auth: { password: credentials.password, email: credentials.email },
+})
+)
+expect(submitBtn).toBeEnabled()
 })
