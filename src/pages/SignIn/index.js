@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { StatusBar } from 'react-native';
+import axios from 'axios';
 
 import { SafeArea, Logo, Box, Text } from '~/components/uikit';
 import { useAuth } from '~/components/modules';
 
-import { Form } from './SignIn/Form';
+import { Form } from './Form';
 
 const Screen = ({ bg = 'raisinBlack', barStyle = 'light-content', children, ...props }) => (
   <SafeArea  bg={bg} flex={1}>
@@ -18,12 +19,14 @@ const Screen = ({ bg = 'raisinBlack', barStyle = 'light-content', children, ...p
 export const SignIn = () => {
   const [, { login: setAuth }] = useAuth()
 
-  const onSubmit = (values) => {
-    //axios.post
-    setAuth({
-      token: 123,
-      user: values
+  const onSubmit = async (values) => {
+    try {const res = await axios.post("http://localhost:9901/login", {
+      auth: values
     })
+    setAuth(res.data)}
+    catch (error) {
+      console.error({ error });
+    }
   }
 
   return (
@@ -32,7 +35,7 @@ export const SignIn = () => {
 
     <Box>
     <Text fontSize={6} textAlign="center">SignIn</Text>
-    <Form onSubmit={onSuccess}/>
+    <Form onSubmit={onSubmit}/>
     </Box>
 
     <Box flex={1} />

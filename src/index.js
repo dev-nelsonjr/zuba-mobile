@@ -1,14 +1,14 @@
 import React from 'react'
 
-import { Theme } from './components/Theme'
+import { Theme, AuthProvider } from './components'
 import { App } from './pages'
 
 export const Main = () => {
   return (
     <Theme>
-      <AuthProvide>
+      <AuthProvider>
         <App />
-      </AuthProvide>
+      </AuthProvider>
     </Theme>
   )
 }

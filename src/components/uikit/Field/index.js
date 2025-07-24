@@ -13,7 +13,7 @@ color: ${th.color('red')};
 padding: ${th.space(0)}px ${th.space(3)}px;
 font-size: ${th.size(2)}px;
 `
-getStyledProps()
+
 export const Field = ({
   textContentType,
   name,

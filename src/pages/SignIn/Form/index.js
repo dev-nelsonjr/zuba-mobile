@@ -25,8 +25,8 @@ export const Form =({ onSubmit, onSignupPress }) => {
         placeholder="Enter your email"
         value={values.email}
         error={touched.email && errors.email}
-        onChangeText={handleChange('username')}
-        onBlur={handleBlur('username')}
+        onChangeText={handleChange('email')}
+        onBlur={handleBlur('email')}
         disabled={isSubmitting}
         mb={3}
       />
@@ -38,7 +38,7 @@ export const Form =({ onSubmit, onSignupPress }) => {
         value={values.password}
         error={touched.password && errors.password}
         onChangeText={handleChange('password')}
-        onBlur={handleBlur('username')}
+        onBlur={handleBlur('password')}
         disabled={isSubmitting}
         mb={3}
       />

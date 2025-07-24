@@ -13,7 +13,7 @@ import { th, margin } from '../../Theme/styled';import { Text } from '~/componen
   justify-content: center;
   align-items: center;
 
-  ${({ disabled }) => disabled && 'opacity: 0.5'}
+  ${({ disabled }) => disabled && 'opacity: 0.5;'}
 
   ${margin}
 `
