@@ -34,7 +34,7 @@ export const SignIn = () => {
     <Logo flex={1} center />
 
     <Box>
-    <Text fontSize={6} textAlign="center">Sign in</Text>
+    <Text fontSize={6} textAlign="center">Access Your Zuba Account</Text>
     <Form onSubmit={onSubmit}/>
     </Box>
 

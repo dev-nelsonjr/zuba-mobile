@@ -6,10 +6,7 @@ const AuthContext = createContext( [{}, () => ({})])
 
 export const useAuth = () => {
   const [state, setState] = useContext(AuthContext)
-  const logout = () => setState({
-    user: null,
-    token: null,
-  })
+  const logout = () => setState(false)
 
   return [state, { login: setState, logout }]
 }

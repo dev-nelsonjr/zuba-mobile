@@ -8,7 +8,6 @@ import { useAuth } from '~/components'
 import { SignIn } from './SignIn'
 import { Dashboard } from './Dashboard'
 
-
 const Stack = createStackNavigator()
 
 const AuthStack = () =>(

@@ -1,13 +1,12 @@
-import * as React from 'react';
-import { fireEvent, render } from '@testing-library/react-native';
+import * as React from 'react'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-
-import { Theme } from '~/components/Theme';
+import { Theme } from '~/components/Theme'
 import { AuthProvider } from '~/components/Modules';
 
-import { App } from './';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { App } from './'
 
 jest.mock('axios')
 
@@ -26,7 +25,7 @@ test('should show login form', async () => {
 
   const emailInput = screen.getByText('E-mail');
   const passwordInput = screen.getByText('Password');
-  const submitBtn = screen.getByText('Sign in');
+  const submitBtn = screen.getByText('Sign In');
   const signupLink = screen.getByText('Sign Up!');
 
   expect(emailInput).toBeTruthy()
@@ -60,9 +59,9 @@ const screen = render(
   </Theme>
 )
 
-const emailInput = screen.getByText('E-mail');
-const passwordInput = screen.getByText('Password');
-const submitBtn = screen.getByText('Sign in');
+const emailInput = screen.getByText('E-mail')
+const passwordInput = screen.getByText('Password')
+const submitBtn = screen.getByText('Sign In')
 
   fireEvent.changeText(emailInput, credentials.email)
   fireEvent.changeText(passwordInput, credentials.password)
@@ -75,5 +74,5 @@ expect(axios.post).toHaveBeenCalledWith('http://localhost:9901/login', {
   auth: { password: credentials.password, email: credentials.email },
 })
 )
-expect(submitBtn).toBeEnabled()
+ expect(submitBtn).toBeEnabled()
 })
