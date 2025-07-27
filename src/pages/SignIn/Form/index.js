@@ -3,6 +3,8 @@ import { useFormik } from 'formik'
 
 import { Box, Field, Button, Text} from '~/components'
 
+const Link = Text
+
 const  validationSchema = yup.object().shape({
   email: yup.string().required('Email is required').email('Enter a valid email address'),
   password: yup.string().required('A password is required')

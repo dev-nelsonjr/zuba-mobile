@@ -1,60 +1,75 @@
 import * as React from 'react'
 import { createContext, useState, useEffect, useContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Text } from 'react-native'
 
-const AuthContext = createContext( [{}, () => ({})])
+const STORAGE_KEY = '@auth'
+
+const AuthContext = createContext([{}, () => ({})])
 
 export const useAuth = () => {
   const [state, setState] = useContext(AuthContext)
-  const logout = () => setState(false)
+  const logout = () => {
+    setState(prevState => ({
+      ...prevState,
+      auth: null
+    }))
+    AsyncStorage.removeItem(STORAGE_KEY)
+  }
 
-  return [state, { login: setState, logout }]
+  const login = authData => {
+    setState(prevState => ({
+      ...prevState,
+      auth: authData,
+      rehydrated: true,
+    }))
+  }
+
+  return [state, { login, logout }]
 }
 
 export const AuthProvider = ({ children }) => {
   const [state, setState] = useState({
     rehydrated: false,
+    auth: null,
   })
 
-  const setStateContent = (data) => setState(prev => ({
-    ...prev,
-    ...data,
-  }))
-
-  const setItem = async(value) => {
+  const setItem = async (value) => {
     try {
-    await AsyncStorage.setItem('auth01', value && JSON.stringify(value))
-   } catch(err) {
-    console.log(err)
-   }
+      await AsyncStorage.setItem(STORAGE_KEY, value && JSON.stringify(value))
+    } catch (err) {
+      console.log(err)
+    }
   }
 
-  const getItem = async() => {
+  const getItem = async () => {
     try {
-      const data = await AsyncStorage.getItem('auth01')
+      const data = await AsyncStorage.getItem(STORAGE_KEY)
 
-      setState(prev => ({
-        ...prev,
-        ...data !== null && JSON.parse(data),
-        rehydrated: true
-      }))
+      if (data) {
+        setState(JSON.parse(data))
+      }
 
-    } catch(e) {
+    } catch (e) {
       console.log(e)
+    }  finally {
+      setState(prevState => ({ ...prevState, rehydrated: true }))
     }
   }
 
   useEffect(() => {
-    state?.rehydrated && setItem(state)
-  }, [JSON.stringify(state)])
+    if (state.rehydrated) {
+      setItem(state.auth)
+    }
+  }, [state.auth])
 
-  useEffect( () => {
+  useEffect(() => {
     getItem()
   }, [])
 
   return (
-  <AuthContext.Provider value={[state, setStateContent]}>
-    {children}
-  </AuthContext.Provider>
-)
+    <AuthContext.Provider value={[state, setState]}>
+      {children}
+    </AuthContext.Provider>
+  )
 }

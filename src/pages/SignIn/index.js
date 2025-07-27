@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, Alert } from 'react-native';
 import axios from 'axios';
 
 import { SafeArea, Logo, Box, Text } from '~/components/uikit';
@@ -20,22 +20,31 @@ export const SignIn = () => {
   const [, { login: setAuth }] = useAuth()
 
   const onSubmit = async (values) => {
-    try {const res = await axios.post("http://localhost:9901/login", {
-      auth: values
-    })
-    setAuth(res.data)}
-    catch (error) {
-      console.error({ error });
-    }
+    try{
+      const res = await axios.post('http://localhost:9901/login', null, {
+        auth: {
+          username: values.email,
+          password: values.password
+        }
+      })
+      setAuth(res.data)
+  } catch (err) {
+    Alert.alert(
+      'Login Error',
+      'Could not log in. Please check your credentials and server connection.',
+      [{ text: 'OK' }]
+    )
+    console.log(err.toJSON ? err.toJSON() : err);
   }
+}
 
   return (
   <Screen p={3} justifyContent="center">
     <Logo flex={1} center />
 
-    <Box>
+    <Box flex={1}>
     <Text fontSize={6} textAlign="center">Access Your Zuba Account</Text>
-    <Form onSubmit={onSubmit}/>
+    <Form onSubmit={onSubmit} />
     </Box>
 
     <Box flex={1} />

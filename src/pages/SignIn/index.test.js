@@ -1,14 +1,13 @@
-import * as React from 'react';
-import { fireEvent, render, waitFor } from '@testing-library/react-native';
+import * as React from 'react'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 
-import { Theme } from '~/components/Theme';
+import { Theme } from '~/components/Theme'
+import { SignIn } from '.'
 
-import { SignIn } from './';
+test('should validate and show error in email field on blur', async () => {
+  const emailValue = 'abc'
 
-test('should validate and show error in email field on blur', async() => {
-   const emailValue = 'abc'
-
-  const screen = render(
+ const screen = render(
     <Theme>
         <SignIn />
     </Theme>
@@ -18,33 +17,14 @@ test('should validate and show error in email field on blur', async() => {
   const submitBtn = screen.getByText('Sign In')
 
   //execute /act
-  fireEvent.changeText(emailInput, emailValue)
-  fireEvent.press(submitBtn)
+  await fireEvent.changeText(emailInput, emailValue)
+  await fireEvent.press(submitBtn)
 
   // assert
   await waitFor(() => expect(screen.getByText('Enter a valid email address')).toBeTruthy())
 })
 
-test('should validate and show error in password field on blur', async() => {
-
- const screen = render(
-   <Theme>
-       <SignIn />
-   </Theme>
- )
-
- const passwordInput = screen.getByText('Password')
- const submitBtn = screen.getByText('Sign In')
-
- //execute /act
- fireEvent.changeText(passwordInput, '')
- fireEvent.press(submitBtn)
-
- // assert
- await waitFor(() => expect(screen.getByText('A password is required')).toBeTruthy())
-})
-
-test('should show required field errors on submit with empty form', async() => {
+test('should validate and show error in password field on blur', async () => {
 
   const screen = render(
     <Theme>
@@ -52,22 +32,40 @@ test('should show required field errors on submit with empty form', async() => {
     </Theme>
   )
 
+  const passwordInput = screen.getByText('Password')
   const submitBtn = screen.getByText('Sign In')
 
   //execute /act
-  await waitFor(() => fireEvent.press(submitBtn))
+   fireEvent.changeText(passwordInput, '')
+   fireEvent.press(submitBtn)
 
   // assert
-  const emailInput = screen.getByText('Email is required')
-  const passwordInput = screen.getByText('A password is required')
+ await waitFor(() => expect(screen.getByText('A password is required')).toBeTruthy())
+})
 
-  expect(emailInput).toBeTruthy()
-  expect(passwordInput).toBeTruthy()
-  expect(submitBtn).toBeDisabled()
- })
+test('should show required field errors on submit with empty form', async () => {
+  const screen = render(
+    <Theme>
+        <SignIn />
+    </Theme>
+  )
 
-test('should re-enable form button and hide errors when form is valid', async() => {
-  const emailValue = 'ntest@test.com'
+  const submitButton = screen.getByText('Sign In')
+
+  //execute /act
+  await waitFor(() => fireEvent.press(submitButton))
+
+  // assert
+  const emailError = screen.getByText('Email is required')
+  const passwordError = screen.getByText('A password is required')
+
+  expect(emailError).toBeTruthy()
+  expect(passwordError).toBeTruthy()
+  expect(submitButton).toBeDisabled()
+})
+
+test('should re-enable form button and hide errors when form is valid', async () => {
+  const emailValue = 'test@test.com'
   const passwordValue = '123456'
 
   const screen = render(
@@ -76,19 +74,21 @@ test('should re-enable form button and hide errors when form is valid', async() 
     </Theme>
   )
 
-  const submitBtn = screen.getByText('Sign In')
+  const submitButton = screen.getByText('Sign In')
   const emailInput = screen.getByText('E-mail')
   const passwordInput = screen.getByText('Password')
 
   //execute /act
-  await waitFor(() => fireEvent.press(submitBtn))
-  expect(submitBtn).toBeDisabled()
+  await fireEvent.press(submitButton)
 
-  fireEvent.changeText(emailInput, emailValue)
-  fireEvent.changeText(passwordInput, passwordValue)
+  // Digite os valores nos campos
+  await fireEvent.changeText(emailInput, emailValue)
+  await fireEvent.changeText(passwordInput, passwordValue)
 
-  await waitFor(() => fireEvent.press(submitBtn))
+  await waitFor(() => {
+    expect(submitButton).toBeEnabled()
+  })
 
-  // assert
-  expect(submitBtn).toBeEnabled()
+  expect(screen.queryByText('Email is required')).not.toBeTruthy()
+  expect(screen.queryByText('A password is required')).not.toBeTruthy()
 })

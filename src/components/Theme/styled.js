@@ -8,21 +8,19 @@ export const th = {
 }
 
 export const flexbox = props => {
-  const direction = typeof props.flexbox === 'string' ? props.flexbox : undefined
-
   const justifyContent = props.justifyContent || (props.center && 'center' )
   const alignItems = props.alignItems || (props.center && 'center' )
 
   return `
     ${getIf(props.flex, `flex: ${props.flex};`)}
-    ${getIf(direction, `flex-direction: ${direction};`)}
+    ${getIf(props.flexDirection, `flex-direction: ${props.flexDirection};`)}
     ${getIf(justifyContent, `justify-content: ${justifyContent};`)}
     ${getIf(alignItems, `align-items: ${alignItems};`)}
   `
 }
 
 export const background = props =>
-  getIf(props.bg, `background-color: ${props.theme.colors[props.bg] || props.bg};`)
+  getIf(props.bg, `background: ${props.theme.colors[props.bg]};`)
 
   export const font = props => {
       const color = getIf(props.color, `color: ${props.theme.colors[props.color] || props.color};`)

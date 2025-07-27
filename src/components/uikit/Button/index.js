@@ -20,7 +20,7 @@ import { Text } from '~/components/uikit/Text'
 `
 
 export const Button = ({ color= 'black', label, disabled, loading, children, ...props }) =>(
-<StyledButton {...props} disabled={disabled || loading}>
+<StyledButton {...props} disabled={disabled || loading} accessibilityRole="button">
   {/*loading ? <Spinner/> : children*/}
   <Text color={color}>{label}</Text>
   {children}
