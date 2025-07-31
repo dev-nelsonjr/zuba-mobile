@@ -23,11 +23,11 @@ const LoggedInStack = () => (
 )
 
 export const App = () => {
-  const [authState] = useAuth()
+  const [{auth}] = useAuth()
 
   return (
     <NavigationContainer>
-      {authState?.auth?.user ? <LoggedInStack /> : <AuthStack />}
+      {auth?.user ? <LoggedInStack /> : <AuthStack />}
     </NavigationContainer>
   )
 }

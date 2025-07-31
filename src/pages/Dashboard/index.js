@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { StatusBar } from 'react-native';
+import * as React from 'react'
+import { StatusBar } from 'react-native'
 
-import { SafeArea, Box, Text } from '~/components/uikit';
+import { SafeArea, Box, Text } from '~/components/uikit'
 
 const Screen = ({ bg = 'raisinBlack', barStyle = 'light-content', children, ...props }) => (
   <SafeArea  bg={bg} flex={1}>

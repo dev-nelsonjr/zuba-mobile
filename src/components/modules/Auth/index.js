@@ -7,82 +7,57 @@ const STORAGE_KEY = '@auth'
 const AuthContext = createContext([{}, () => ({})])
 
 export const useAuth = () => {
-  const [state, setState] = useContext(AuthContext)
+const [state, setState] = useContext(AuthContext)
 
-  const logout = () => {
-    setState(prevState => ({
-      ...prevState,
-      auth: null
-    }))
-    AsyncStorage.removeItem(STORAGE_KEY)
-  }
+const logout = () => setState(prevState => ({
+  ...prevState,
+  auth: false
+}))
 
-  const login = authData => {
-    setState(prevState => ({
-      ...prevState,
-      auth: authData,
-    }))
-  }
+const login = auth => setState(prevState => ({
+  ...prevState,
+  auth
+}))
 
-  return [state, { login, logout }]
+return [state, { login, logout }]
 }
 
 export const AuthProvider = ({ children }) => {
   const [state, setState] = useState({
     rehydrated: false,
-    auth: null,
   })
 
-  useEffect(() => {
-    const getItemFromStorage = async () => {
-      try {
-        const data = await AsyncStorage.getItem(STORAGE_KEY)
-        if (data) {
-          setState(prevState => ({
-            ...prevState,
-            auth: JSON.parse(data),
-            rehydrated: true,
-          }))
-        } else {
-          setState(prevState => ({
-            ...prevState,
-            rehydrated: true,
-            auth: null,
-          }))
-        }
-      } catch (e) {
-        console.log("Error loading auth from AsyncStorage:", e)
-        setState(prevState => ({ ...prevState, rehydrated: true }))
-      }
+  const  setItem = async (value) => {
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY, value && JSON.stringify(value))
+    } catch (err) {
+      console.log(err)
     }
+}
 
-    getItemFromStorage()
-  }, [])
+const getItem = async() => {
+  try{
+    const data = await AsyncStorage.getItem(STORAGE_KEY)
 
-  useEffect(() => {
-    if (state.rehydrated) {
-      const saveAuthToStorage = async () => {
-        try {
-          if (state.auth) {
-            await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(state.auth))
-          } else {
-            await AsyncStorage.removeItem(STORAGE_KEY)
-          }
-        } catch (err) {
-          console.log("Error saving auth to AsyncStorage:", err)
-        }
-      }
-      saveAuthToStorage()
+    if (data) {
+      setState(JSON.parse(data))
     }
-  }, [state.auth, state.rehydrated])
-
-  if (!state.rehydrated) {
-    return null
+    }catch (e) {
+      console.log(e)
+    }
   }
 
-  return (
-    <AuthContext.Provider value={[state, setState]}>
-      {children}
-    </AuthContext.Provider>
-  )
-}
+  useEffect(() => {
+    state?.rehydrated && setItem(state)
+  }, [JSON.stringify(state)])
+
+
+useEffect(() => {
+  getItem()
+}, [])
+
+return  (
+  <AuthContext.Provider value={[state, setState]}>
+   {children}
+  </AuthContext.Provider>
+)}
