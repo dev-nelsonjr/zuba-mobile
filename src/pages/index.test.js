@@ -73,7 +73,7 @@ fireEvent.press(submitBtn)
 
 expect(submitBtn).toBeDisabled()
 
-await waitFor(() => { expect(axios.post).toHaveBeenCalledWith( "http://localhost:9901/login", null, {auth: { password: credentials.password, username: credentials.email}}, )
+await waitFor(() => { expect(axios.post).toHaveBeenCalledWith( "http://10.0.2.2:9901/login", null, {auth: { password: credentials.password, username: credentials.email}}, )
 })
 
   const dashboardText = screen.getByText('Dash')
@@ -110,7 +110,7 @@ test('should not redirect user when API returns error' , async() => {
 
   expect(submitBtn).toBeDisabled()
 
-  await waitFor(() => { expect(axios.post).toHaveBeenCalledWith( "http://localhost:9901/login", null, {auth: { password: credentials.password, username: credentials.email}}, )
+  await waitFor(() => { expect(axios.post).toHaveBeenCalledWith( "http://10.0.2.2:9901/login", null, {auth: { password: credentials.password, username: credentials.email}}, )
 })
 
   expect(submitBtn).toBeEnabled()
