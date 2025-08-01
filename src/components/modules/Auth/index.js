@@ -7,19 +7,21 @@ const STORAGE_KEY = '@auth'
 const AuthContext = createContext([{}, () => ({})])
 
 export const useAuth = () => {
-const [state, setState] = useContext(AuthContext)
+  const [state, setState] = useContext(AuthContext)
 
-const logout = () => setState(prevState => ({
-  ...prevState,
-  auth: false
-}))
+  const logout = () =>
+    setState(prevState => ({
+      ...prevState,
+      auth: false,
+    }))
 
-const login = auth => setState(prevState => ({
-  ...prevState,
-  auth
-}))
+  const login = auth =>
+    setState(prevState => ({
+      ...prevState,
+      auth,
+    }))
 
-return [state, { login, logout }]
+  return [state, { login, logout }]
 }
 
 export const AuthProvider = ({ children }) => {
@@ -27,37 +29,39 @@ export const AuthProvider = ({ children }) => {
     rehydrated: false,
   })
 
-  const  setItem = async (value) => {
+  const setItem = async value => {
     try {
       await AsyncStorage.setItem(STORAGE_KEY, value && JSON.stringify(value))
     } catch (err) {
       console.log(err)
     }
-}
+  }
 
-const getItem = async() => {
-  try{
-    const data = await AsyncStorage.getItem(STORAGE_KEY)
+  const getItem = async () => {
+    try {
+      const data = await AsyncStorage.getItem(STORAGE_KEY)
 
-    if (data) {
-      setState(JSON.parse(data))
-    }
-    }catch (e) {
+      if (data) {
+        setState(JSON.parse(data))
+      }
+    } catch (e) {
       console.log(e)
     }
   }
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     state?.rehydrated && setItem(state)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(state)])
 
+  useEffect(() => {
+    getItem()
+  }, [])
 
-useEffect(() => {
-  getItem()
-}, [])
-
-return  (
-  <AuthContext.Provider value={[state, setState]}>
-   {children}
-  </AuthContext.Provider>
-)}
+  return (
+    <AuthContext.Provider value={[state, setState]}>
+      {children}
+    </AuthContext.Provider>
+  )
+}

@@ -11,21 +11,22 @@ const StyledInput = styled(TextInput)`
   color: ${props => th.color(props.color || 'white')(props)};
   padding: ${th.space(2)}px ${th.space(3)}px;
 
-  ${({ disabled }) => disabled &&`
+  ${({ disabled }) =>
+    disabled &&
+    `
     opacity: 0.5;
   `}
 
-  ${({ hasError }) => hasError && css`
-    border-color: ${th.color('red')};
-  `}
+  ${({ hasError }) =>
+    hasError &&
+    css`
+      border-color: ${th.color('red')};
+    `}
 `
 
 export const Input = ({ placeholderTextColor = 'gray', ...props }) => {
   const theme = useTheme()
   const color = th.color(placeholderTextColor)({ theme })
 
-  return(
-  <StyledInput
-   {...props} placeholderTextColor={color}/>
-)
+  return <StyledInput {...props} placeholderTextColor={color} />
 }

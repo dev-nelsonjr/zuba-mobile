@@ -1,6 +1,7 @@
 const getIf = (prop, value) => (prop ? value : '')
 
-export const theme = prop => value => props => props.theme[prop]?.[value] || value
+export const theme = prop => value => props =>
+  props.theme[prop]?.[value] || value
 export const th = {
   space: theme('spaces'),
   size: theme('fontSizes'),
@@ -8,8 +9,8 @@ export const th = {
 }
 
 export const flexbox = props => {
-  const justifyContent = props.justifyContent || (props.center && 'center' )
-  const alignItems = props.alignItems || (props.center && 'center' )
+  const justifyContent = props.justifyContent || (props.center && 'center')
+  const alignItems = props.alignItems || (props.center && 'center')
 
   return `
     ${getIf(props.flex, `flex: ${props.flex};`)}
@@ -22,13 +23,17 @@ export const flexbox = props => {
 export const background = props =>
   getIf(props.bg, `background: ${props.theme.colors[props.bg]};`)
 
-  export const font = props => {
-      const color = getIf(props.color, `color: ${props.theme.colors[props.color] || props.color};`)
+export const font = props => {
+  const color = getIf(
+    props.color,
+    `color: ${props.theme.colors[props.color] || props.color};`
+  )
 
-      const size = getIf(
-        props.fontSize !== undefined && props.theme.fontSizes[props.fontSize] !== undefined,
-        `font-size: ${props.theme.fontSizes[props.fontSize]}px;`
-      );
+  const size = getIf(
+    props.fontSize !== undefined &&
+      props.theme.fontSizes[props.fontSize] !== undefined,
+    `font-size: ${props.theme.fontSizes[props.fontSize]}px;`
+  )
 
   return `
     ${getIf(color, color)}

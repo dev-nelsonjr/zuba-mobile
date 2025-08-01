@@ -8,7 +8,7 @@ const baseColors = {
   gray: '#A0A2AE',
 }
 
- const brandColors = {
+const brandColors = {
   raisinBlack: '#16171C',
   caribbeanGreen: baseColors.green,
 }

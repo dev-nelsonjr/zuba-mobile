@@ -7,9 +7,9 @@ import { SignIn } from '.'
 test('should validate and show error in email field on blur', async () => {
   const emailValue = 'abc'
 
- const screen = render(
+  const screen = render(
     <Theme>
-        <SignIn />
+      <SignIn />
     </Theme>
   )
 
@@ -21,14 +21,15 @@ test('should validate and show error in email field on blur', async () => {
   await fireEvent.press(submitBtn)
 
   // assert
-  await waitFor(() => expect(screen.getByText('Enter a valid email address')).toBeTruthy())
+  await waitFor(() =>
+    expect(screen.getByText('Enter a valid email address')).toBeTruthy()
+  )
 })
 
 test('should validate and show error in password field on blur', async () => {
-
   const screen = render(
     <Theme>
-        <SignIn />
+      <SignIn />
     </Theme>
   )
 
@@ -36,17 +37,19 @@ test('should validate and show error in password field on blur', async () => {
   const submitBtn = screen.getByText('Sign In')
 
   //execute /act
-   fireEvent.changeText(passwordInput, '')
-   fireEvent.press(submitBtn)
+  fireEvent.changeText(passwordInput, '')
+  fireEvent.press(submitBtn)
 
   // assert
- await waitFor(() => expect(screen.getByText('A password is required')).toBeTruthy())
+  await waitFor(() =>
+    expect(screen.getByText('A password is required')).toBeTruthy()
+  )
 })
 
 test('should show required field errors on submit with empty form', async () => {
   const screen = render(
     <Theme>
-        <SignIn />
+      <SignIn />
     </Theme>
   )
 
@@ -70,7 +73,7 @@ test('should re-enable form button and hide errors when form is valid', async ()
 
   const screen = render(
     <Theme>
-        <SignIn />
+      <SignIn />
     </Theme>
   )
 

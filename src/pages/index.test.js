@@ -18,7 +18,7 @@ test('should show login form', () => {
   const screen = render(
     <Theme>
       <AuthProvider>
-          <App />
+        <App />
       </AuthProvider>
     </Theme>
   )
@@ -48,12 +48,14 @@ test('should login user and redirect when API return success', async () => {
     token: '123',
   }
 
-  axios.post.mockImplementationOnce(() => Promise.resolve({ data: responseData }))
+  axios.post.mockImplementationOnce(() =>
+    Promise.resolve({ data: responseData })
+  )
 
   const screen = render(
     <Theme>
       <AuthProvider>
-          <App />
+        <App />
       </AuthProvider>
     </Theme>
   )
@@ -62,51 +64,49 @@ test('should login user and redirect when API return success', async () => {
   const passwordInput = screen.getByText('Password')
   const submitBtn = screen.getByText('Sign In')
 
-   fireEvent.changeText(emailInput, credentials.email)
-   fireEvent.changeText(passwordInput, credentials.password)
-   fireEvent.press(submitBtn)
+  fireEvent.changeText(emailInput, credentials.email)
+  fireEvent.changeText(passwordInput, credentials.password)
+  fireEvent.press(submitBtn)
 
-   await waitFor(() => expect(submitBtn).toBeDisabled())
+  await waitFor(() => expect(submitBtn).toBeDisabled())
 
   await waitFor(() => {
-    expect(axios.post).toHaveBeenCalledWith(
-      "http://localhost:9901/login",
-      { auth: { username: credentials.email, password: credentials.password } },
-    )
-  })
-  })
-
-  test('should not redirect user when API returns error', async () => {
-    const credentials = {
-      email: 'error@gmail.com',
-      password: '123456',
-    }
-
-    axios.post.mockImplementation(() => Promise.reject({ data: {} }))
-
-    const screen = render(
-      <Theme>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </Theme>
-    )
-
-    const emailInput = screen.getByText('E-mail')
-    const passwordInput = screen.getByText('Password')
-    const submitBtn = screen.getByText('Sign In')
-
-    fireEvent.changeText(emailInput, credentials.email)
-    fireEvent.changeText(passwordInput, credentials.password)
-    fireEvent.press(submitBtn)
-
-    await waitFor(() => expect(submitBtn).toBeDisabled())
-
-    await waitFor(() => {
-      expect(axios.post).toHaveBeenCalledWith(
-        "http://localhost:9901/login",
-        { auth: { username: credentials.email, password: credentials.password } },
-      )
+    expect(axios.post).toHaveBeenCalledWith('http://localhost:9901/login', {
+      auth: { username: credentials.email, password: credentials.password },
     })
-    expect(submitBtn).toBeEnabled()
   })
+})
+
+test('should not redirect user when API returns error', async () => {
+  const credentials = {
+    email: 'error@gmail.com',
+    password: '123456',
+  }
+
+  axios.post.mockImplementation(() => Promise.reject({ data: {} }))
+
+  const screen = render(
+    <Theme>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </Theme>
+  )
+
+  const emailInput = screen.getByText('E-mail')
+  const passwordInput = screen.getByText('Password')
+  const submitBtn = screen.getByText('Sign In')
+
+  fireEvent.changeText(emailInput, credentials.email)
+  fireEvent.changeText(passwordInput, credentials.password)
+  fireEvent.press(submitBtn)
+
+  await waitFor(() => expect(submitBtn).toBeDisabled())
+
+  await waitFor(() => {
+    expect(axios.post).toHaveBeenCalledWith('http://localhost:9901/login', {
+      auth: { username: credentials.email, password: credentials.password },
+    })
+  })
+  expect(submitBtn).toBeEnabled()
+})

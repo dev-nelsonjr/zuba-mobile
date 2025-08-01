@@ -4,8 +4,8 @@ import styled from 'styled-components/native'
 import { th, padding, margin, font } from '../../Theme/styled'
 
 export const Text = styled(BaseText)`
-color: ${th.color('white')};
-${padding}
-${margin}
+  color: ${th.color('white')};
+  ${padding}
+  ${margin}
 ${font}
 `

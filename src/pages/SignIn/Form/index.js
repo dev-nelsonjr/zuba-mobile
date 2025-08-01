@@ -1,25 +1,35 @@
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 
-import { Box, Field, Button, Text} from '~/components'
+import { Box, Field, Button, Text } from '~/components'
 
-const Link = Text
-
-const  validationSchema = yup.object().shape({
-  email: yup.string().required('Email is required').email('Enter a valid email address'),
-  password: yup.string().required('A password is required')
+const validationSchema = yup.object().shape({
+  email: yup
+    .string()
+    .required('Email is required')
+    .email('Enter a valid email address'),
+  password: yup.string().required('A password is required'),
 })
 
-export const Form =({ onSubmit, onSignupPress }) => {
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, isValid } = useFormik({
+export const Form = ({ onSubmit, onSignupPress }) => {
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    isSubmitting,
+    isValid,
+  } = useFormik({
     onSubmit,
     validationSchema,
     initialValues: {
       email: '',
       password: '',
-    }
+    },
   })
-  return(
+  return (
     <>
       <Field
         type="text"
@@ -36,7 +46,7 @@ export const Form =({ onSubmit, onSignupPress }) => {
       <Field
         type="password"
         label="Password"
-        placeholder={"Enter your password"}
+        placeholder={'Enter your password'}
         value={values.password}
         error={touched.password && errors.password}
         onChangeText={handleChange('password')}
@@ -47,17 +57,20 @@ export const Form =({ onSubmit, onSignupPress }) => {
 
       <Box center>
         <Button
-            label="Sign In"
-            loading={isSubmitting}
-            disabled={!isValid}
-            onPress={handleSubmit}
-            m={1}
-           />
+          label="Sign In"
+          loading={isSubmitting}
+          disabled={!isValid}
+          onPress={handleSubmit}
+          m={1}
+        />
 
         <Box m={1} fontSize={1} color="gray">
-          <Text>Don't have an account?{' '}
-         <Text color="gray" fontWeight="bold" onPress={onSignupPress}>Sign Up!</Text>
-         </Text>
+          <Text>
+            Don&apos;t have an account?{' '}
+            <Text color="gray" fontWeight="bold" onPress={onSignupPress}>
+              Sign Up!
+            </Text>
+          </Text>
         </Box>
       </Box>
     </>
