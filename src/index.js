@@ -1,14 +1,17 @@
 import React from 'react'
 
-import { Theme, AuthProvider } from './components'
+import { Theme } from './components'
+import { StorageProvider } from './components/modules/Storage'
+import * as asyncStorage from './components/modules/Storage/persistence-adapter/async-storage'
+
 import { App } from './pages'
 
 export const Main = () => {
   return (
     <Theme>
-      <AuthProvider>
+      <StorageProvider persistenceAdapter={asyncStorage}>
         <App />
-      </AuthProvider>
+      </StorageProvider>
     </Theme>
   )
 }

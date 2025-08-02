@@ -1,27 +1,26 @@
 import * as React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
+import axios from 'axios'
 import '@testing-library/jest-native'
 
 import { Theme } from '~/components/Theme'
-import { AuthProvider } from '~/components/Modules'
+import { StorageProvider } from '~/components/modules/Storage'
+import * as asyncStorage from '~/components/modules/Storage/persistence-adapter/async-storage'
 
 import { App } from './'
 
-import * as sdk from '~/services/sdk'
-jest.mock('~/services/sdk', () => ({
-  login: jest.fn(),
-}))
+jest.mock('axios')
 
-beforeEach(() => {
-  jest.clearAllMocks()
+beforeEach(async () => {
+  await asyncStorage.clear()
 })
 
 test('should show login form', () => {
   const screen = render(
     <Theme>
-      <AuthProvider>
+      <StorageProvider persistenceAdapter={asyncStorage}>
         <App />
-      </AuthProvider>
+      </StorageProvider>
     </Theme>
   )
 
@@ -50,13 +49,15 @@ test('should login user and redirect when API return success', async () => {
     token: '123',
   }
 
-  sdk.login.mockImplementationOnce(() => Promise.resolve(responseData))
+  axios.post.mockImplementationOnce(() =>
+    Promise.resolve({ data: responseData })
+  )
 
   const screen = render(
     <Theme>
-      <AuthProvider>
+      <StorageProvider persistenceAdapter={asyncStorage}>
         <App />
-      </AuthProvider>
+      </StorageProvider>
     </Theme>
   )
 
@@ -71,9 +72,8 @@ test('should login user and redirect when API return success', async () => {
   await waitFor(() => expect(submitBtn).toBeDisabled())
 
   await waitFor(() => {
-    expect(sdk.login).toHaveBeenCalledWith({
-      email: credentials.email,
-      password: credentials.password,
+    expect(axios.post).toHaveBeenCalledWith('http://localhost:9901/login', {
+      auth: { username: credentials.email, password: credentials.password },
     })
   })
 })
@@ -84,12 +84,13 @@ test('should not redirect user when API returns error', async () => {
     password: '123456',
   }
 
-  sdk.login.mockImplementationOnce(() => Promise.reject(new Error('API Error')))
+  axios.post.mockImplementation(() => Promise.reject({ data: {} }))
+
   const screen = render(
     <Theme>
-      <AuthProvider>
+      <StorageProvider persistenceAdapter={asyncStorage}>
         <App />
-      </AuthProvider>
+      </StorageProvider>
     </Theme>
   )
 
@@ -104,9 +105,8 @@ test('should not redirect user when API returns error', async () => {
   await waitFor(() => expect(submitBtn).toBeDisabled())
 
   await waitFor(() => {
-    expect(sdk.login).toHaveBeenCalledWith({
-      email: credentials.email,
-      password: credentials.password,
+    expect(axios.post).toHaveBeenCalledWith('http://localhost:9901/login', {
+      auth: { username: credentials.email, password: credentials.password },
     })
   })
   expect(submitBtn).toBeEnabled()
