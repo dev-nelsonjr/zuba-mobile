@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
-import axios from 'axios'
 import '@testing-library/jest-native'
 
 import { Theme } from '~/components/Theme'
@@ -8,7 +7,10 @@ import { AuthProvider } from '~/components/Modules'
 
 import { App } from './'
 
-jest.mock('axios')
+import * as sdk from '~/services/sdk'
+jest.mock('~/services/sdk', () => ({
+  login: jest.fn(),
+}))
 
 beforeEach(() => {
   jest.clearAllMocks()
@@ -48,9 +50,7 @@ test('should login user and redirect when API return success', async () => {
     token: '123',
   }
 
-  axios.post.mockImplementationOnce(() =>
-    Promise.resolve({ data: responseData })
-  )
+  sdk.login.mockImplementationOnce(() => Promise.resolve(responseData))
 
   const screen = render(
     <Theme>
@@ -71,8 +71,9 @@ test('should login user and redirect when API return success', async () => {
   await waitFor(() => expect(submitBtn).toBeDisabled())
 
   await waitFor(() => {
-    expect(axios.post).toHaveBeenCalledWith('http://localhost:9901/login', {
-      auth: { username: credentials.email, password: credentials.password },
+    expect(sdk.login).toHaveBeenCalledWith({
+      email: credentials.email,
+      password: credentials.password,
     })
   })
 })
@@ -83,8 +84,7 @@ test('should not redirect user when API returns error', async () => {
     password: '123456',
   }
 
-  axios.post.mockImplementation(() => Promise.reject({ data: {} }))
-
+  sdk.login.mockImplementationOnce(() => Promise.reject(new Error('API Error')))
   const screen = render(
     <Theme>
       <AuthProvider>
@@ -104,8 +104,9 @@ test('should not redirect user when API returns error', async () => {
   await waitFor(() => expect(submitBtn).toBeDisabled())
 
   await waitFor(() => {
-    expect(axios.post).toHaveBeenCalledWith('http://localhost:9901/login', {
-      auth: { username: credentials.email, password: credentials.password },
+    expect(sdk.login).toHaveBeenCalledWith({
+      email: credentials.email,
+      password: credentials.password,
     })
   })
   expect(submitBtn).toBeEnabled()

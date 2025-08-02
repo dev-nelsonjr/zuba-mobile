@@ -1,24 +1,25 @@
 import axios from 'axios'
 
 const endpoints = {
-  production: 'http://api.zuba',
-  development: 'http://dev.zuba',
-  staging: 'http://stg.zuba',
+  production: 'http://api.puf.work',
+  development: 'http://dev.puf.work',
+  staging: 'http://stg.puf.work',
 }
 
-const fetch = axios.create({
-  baseURL:
-    endpoints?.[process.env.API_ENV] ||
-    process.env.CUSTOM_URL ||
-    endpoints.production,
-})
+const baseURL =
+  endpoints?.[process.env.API_ENV] ||
+  process.env.CUSTOM_URL ||
+  endpoints.production
 
-export const login = async ({ username, password }) => {
+const fetch = ({ method, url, ...params }) =>
+  axios[method](`${baseURL}${url}`, params)
+
+export const login = async ({ email, password }) => {
   try {
     const res = await fetch({
       method: 'post',
       url: '/login',
-      auth: { username, password },
+      auth: { username: email, password },
     })
     return res.data
   } catch (error) {
