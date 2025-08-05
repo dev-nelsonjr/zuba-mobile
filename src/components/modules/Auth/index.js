@@ -14,5 +14,5 @@ export const useAuth = () => {
       auth,
     }))
 
-  return [state, { login, logout }]
+  return [state?.auth || {}, { login, logout }]
 }
