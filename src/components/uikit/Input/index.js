@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { TextInput } from 'react-native'
-import styled, { css, useTheme } from 'styled-components/native'
+import styled, { css, useTheme } from '~/lib/styled-native'
 
 import { th } from '~/components/Theme/styled'
 

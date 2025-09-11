@@ -1,7 +1,10 @@
+import { definitions } from './definitions.js'
+
 const getIf = (prop, value) => (prop ? value : '')
+const getTheme = props => props.theme || definitions
 
 export const theme = prop => value => props =>
-  props.theme[prop]?.[value] || value
+  getTheme(props)[prop]?.[value] || value
 export const th = {
   space: theme('spaces'),
   size: theme('fontSizes'),
@@ -20,19 +23,21 @@ export const flexbox = props => {
   `
 }
 
-export const background = props =>
-  getIf(props.bg, `background: ${props.theme.colors[props.bg]};`)
+export const background = props => {
+  const { colors } = getTheme(props)
+  return getIf(props.bg, `background: ${colors[props.bg]};`)
+}
 
 export const font = props => {
+  const { colors, fontSizes } = getTheme(props)
   const color = getIf(
     props.color,
-    `color: ${props.theme.colors[props.color] || props.color};`
+    `color: ${colors[props.color] || props.color};`
   )
 
   const size = getIf(
-    props.fontSize !== undefined &&
-      props.theme.fontSizes[props.fontSize] !== undefined,
-    `font-size: ${props.theme.fontSizes[props.fontSize]}px;`
+    props.fontSize !== undefined && fontSizes[props.fontSize] !== undefined,
+    `font-size: ${fontSizes[props.fontSize]}px;`
   )
 
   return `
@@ -44,28 +49,30 @@ export const font = props => {
 }
 
 export const margin = props => {
+  const { spaces } = getTheme(props)
   const mb = props.mb ?? props.my ?? props.m
   const mt = props.mt ?? props.my ?? props.m
   const ml = props.ml ?? props.mx ?? props.m
   const mr = props.mr ?? props.mx ?? props.m
 
   return `
-    ${mb !== undefined ? `margin-bottom: ${props.theme.spaces[mb]}px;` : ''}
-    ${mt !== undefined ? `margin-top: ${props.theme.spaces[mt]}px;` : ''}
-    ${ml !== undefined ? `margin-left: ${props.theme.spaces[ml]}px;` : ''}
-    ${mr !== undefined ? `margin-right: ${props.theme.spaces[mr]}px;` : ''}
+    ${mb !== undefined ? `margin-bottom: ${spaces[mb]}px;` : ''}
+    ${mt !== undefined ? `margin-top: ${spaces[mt]}px;` : ''}
+    ${ml !== undefined ? `margin-left: ${spaces[ml]}px;` : ''}
+    ${mr !== undefined ? `margin-right: ${spaces[mr]}px;` : ''}
   `
 }
 export const padding = props => {
+  const { spaces } = getTheme(props)
   const pb = props.pb ?? props.py ?? props.p
   const pt = props.pt ?? props.py ?? props.p
   const pl = props.pl ?? props.px ?? props.p
   const pr = props.pr ?? props.px ?? props.p
 
   return `
-    ${pb !== undefined ? `padding-bottom: ${props.theme.spaces[pb]}px;` : ''}
-    ${pt !== undefined ? `padding-top: ${props.theme.spaces[pt]}px;` : ''}
-    ${pl !== undefined ? `padding-left: ${props.theme.spaces[pl]}px;` : ''}
-    ${pr !== undefined ? `padding-right: ${props.theme.spaces[pr]}px;` : ''}
+    ${pb !== undefined ? `padding-bottom: ${spaces[pb]}px;` : ''}
+    ${pt !== undefined ? `padding-top: ${spaces[pt]}px;` : ''}
+    ${pl !== undefined ? `padding-left: ${spaces[pl]}px;` : ''}
+    ${pr !== undefined ? `padding-right: ${spaces[pr]}px;` : ''}
   `
 }

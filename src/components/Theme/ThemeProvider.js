@@ -1,8 +1,10 @@
 import * as React from 'react'
-import { ThemeProvider } from 'styled-components/native'
+import { ThemeProvider } from '~/lib/styled-native'
+import { definitions } from './definitions.js'
 
-import { definitions } from './definitions'
-
-export const Theme = ({ children }) => (
+const Theme = ({ children }) => (
   <ThemeProvider theme={definitions}>{children}</ThemeProvider>
 )
+
+export default Theme
+export { Theme }

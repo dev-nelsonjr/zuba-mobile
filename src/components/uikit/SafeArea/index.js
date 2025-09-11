@@ -1,5 +1,5 @@
 import { SafeAreaView } from 'react-native'
-import styled from 'styled-components/native'
+import styled from '~/lib/styled-native'
 
 import { background, padding, margin, flexbox } from '../../Theme/styled'
 

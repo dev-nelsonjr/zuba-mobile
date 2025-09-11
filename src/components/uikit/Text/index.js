@@ -1,5 +1,5 @@
 import { Text as BaseText } from 'react-native'
-import styled from 'styled-components/native'
+import styled from '~/lib/styled-native'
 
 import { th, padding, margin, font } from '../../Theme/styled'
 

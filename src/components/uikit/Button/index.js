@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { TouchableOpacity } from 'react-native'
-import styled from 'styled-components/native'
+import styled from '~/lib/styled-native'
 
 import { th, margin } from '../../Theme/styled'
 import { Text } from '~/components/uikit/Text'
