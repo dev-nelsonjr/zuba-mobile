@@ -15,7 +15,7 @@ const ErrorMessage = styled(Text)`
 `
 
 export const Field = ({
-  textContentType,
+  type: textContentType,
   label,
   placeholder,
   placeholderTextColor,
@@ -29,6 +29,7 @@ export const Field = ({
   <Box {...props}>
     <Label>{label}</Label>
     <Input
+      secureTextEntry={textContentType === 'password'}
       textContentType={textContentType}
       placeholderTextColor={placeholderTextColor}
       value={value}
