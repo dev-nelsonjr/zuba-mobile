@@ -21,7 +21,7 @@ const Screen = ({
   </SafeArea>
 )
 
-export const SignIn = () => {
+export const Login = ({ navigation }) => {
   const [, { login: setAuth }] = useAuth()
 
   const onSubmit = async values => {
@@ -31,9 +31,8 @@ export const SignIn = () => {
     } catch (err) {
       Alert.alert(
         'Login Error',
-        'Unable to log in. Please check your credentials and server connection.'[
-          { text: 'OK' }
-        ]
+        'Unable to log in. Please check your credentials and server connection.',
+        [{ text: 'OK' }]
       )
       console.log(err.toJSON ? err.toJSON() : err)
     }
@@ -41,16 +40,19 @@ export const SignIn = () => {
 
   return (
     <Screen p={3} justifyContent="center">
-      <Logo flex={1} center />
+      <Logo flex={0.45} center />
 
       <Box flex={1}>
         <Text fontSize={6} textAlign="center">
           Access your zuba Account
         </Text>
-        <Form onSubmit={onSubmit} />
+        <Form
+          onSubmit={onSubmit}
+          onSignupPress={() => navigation.navigate('/signup')}
+        />
       </Box>
 
-      <Box flex={1} />
+      <Box flex={1.55} />
     </Screen>
   )
 }

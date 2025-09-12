@@ -2,14 +2,14 @@ import * as React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 
 import { Theme } from '~/components/Theme'
-import { SignIn } from '.'
+import { Login } from '.'
 
 test('should validate and show error in email field on blur', async () => {
   const emailValue = 'abc'
 
   const screen = render(
     <Theme>
-      <SignIn />
+      <Login />
     </Theme>
   )
 
@@ -29,7 +29,7 @@ test('should validate and show error in email field on blur', async () => {
 test('should validate and show error in password field on blur', async () => {
   const screen = render(
     <Theme>
-      <SignIn />
+      <Login />
     </Theme>
   )
 
@@ -49,7 +49,7 @@ test('should validate and show error in password field on blur', async () => {
 test('should show required field errors on submit with empty form', async () => {
   const screen = render(
     <Theme>
-      <SignIn />
+      <Login />
     </Theme>
   )
 
@@ -73,7 +73,7 @@ test('should re-enable form button and hide errors when form is valid', async ()
 
   const screen = render(
     <Theme>
-      <SignIn />
+      <Login />
     </Theme>
   )
 

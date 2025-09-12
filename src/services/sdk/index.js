@@ -26,3 +26,17 @@ export const login = async ({ email, password }) => {
     return Promise.reject(error)
   }
 }
+
+export const signup = async ({ email, password }) => {
+  try {
+    const res = await fetch({
+      method: 'post',
+      url: '/signup',
+      email,
+      password,
+    })
+    return res.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
