@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { StatusBar, Alert } from 'react-native'
+import { StatusBar } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 import { SafeArea, Logo, Box, Text } from '~/components/uikit'
 import { useAuth } from '~/components/modules'
@@ -21,22 +22,20 @@ const Screen = ({
   </SafeArea>
 )
 
-export const Signup = ({ navigation }) => {
+export const Signup = () => {
+  const navigation = useNavigation()
   const [, { login: setAuth }] = useAuth()
 
   const onSubmit = async values => {
     try {
       const data = await signup(values)
       setAuth(data)
-    } catch (err) {
-      Alert.alert(
-        'Signup Error',
-        'Unable to create your account. Please check your data and server connection.',
-        [{ text: 'OK' }]
-      )
-      console.log(err.toJSON ? err.toJSON() : err)
+    } catch (error) {
+      console.log({ error })
     }
   }
+
+  const onSigninPress = () => navigation.navigate('/login')
 
   return (
     <Screen p={3} justifyContent="center">
@@ -46,10 +45,7 @@ export const Signup = ({ navigation }) => {
         <Text fontSize={6} textAlign="center">
           Create your zuba Account
         </Text>
-        <Form
-          onSubmit={onSubmit}
-          onSigninPress={() => navigation.navigate('/login')}
-        />
+        <Form onSubmit={onSubmit} onSigninPress={onSigninPress} />
       </Box>
 
       <Box flex={1.55} />
