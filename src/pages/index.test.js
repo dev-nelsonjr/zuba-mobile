@@ -72,9 +72,13 @@ test('should login user and redirect when API return success', async () => {
   await waitFor(() => expect(submitBtn).toBeDisabled())
 
   await waitFor(() => {
-    expect(axios.post).toHaveBeenCalledWith('http://localhost:9901/login', {
-      auth: { username: credentials.email, password: credentials.password },
-    })
+    expect(axios.post).toHaveBeenCalledWith(
+      'http://localhost:9900/login',
+      undefined,
+      {
+        auth: { username: credentials.email, password: credentials.password },
+      }
+    )
   })
 })
 
@@ -105,9 +109,13 @@ test('should not redirect user when API returns error', async () => {
   await waitFor(() => expect(submitBtn).toBeDisabled())
 
   await waitFor(() => {
-    expect(axios.post).toHaveBeenCalledWith('http://localhost:9901/login', {
-      auth: { username: credentials.email, password: credentials.password },
-    })
+    expect(axios.post).toHaveBeenCalledWith(
+      'http://localhost:9900/login',
+      undefined,
+      {
+        auth: { username: credentials.email, password: credentials.password },
+      }
+    )
   })
   expect(submitBtn).toBeEnabled()
 })
