@@ -1,7 +1,9 @@
 import 'react-native-gesture-handler'
+
 import * as React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
+import { createDrawerNavigator } from '@react-navigation/drawer'
 
 import { useAuth } from '~/components/modules/Auth/index'
 
@@ -10,6 +12,7 @@ import { Signup } from './Signup'
 import { Dashboard } from './Dashboard'
 
 const Stack = createStackNavigator()
+const Drawer = createDrawerNavigator()
 
 const AuthStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -19,9 +22,22 @@ const AuthStack = () => (
 )
 
 const LoggedInStack = () => (
-  <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="/dashboard" component={Dashboard} />
-  </Stack.Navigator>
+  <Drawer.Navigator
+    screenOptions={{
+      headerShown: false,
+      drawerStyle: {
+        backgroundColor: '#000',
+      },
+    }}
+  >
+    <Drawer.Screen
+      name="/dashboard"
+      component={Dashboard}
+      options={{
+        drawerLabel: 'Dashboard',
+      }}
+    />
+  </Drawer.Navigator>
 )
 
 export const App = () => {

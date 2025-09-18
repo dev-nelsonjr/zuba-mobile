@@ -11,15 +11,15 @@ const baseURL =
   process.env.CUSTOM_URL ||
   endpoints.production
 
-const fetch = ({ method, url, ...params }) =>
-  axios[method](`${baseURL}${url}`, params)
+const post = (url, data, config) => axios.post(`${baseURL}${url}`, data, config)
 
 export const login = async ({ email, password }) => {
   try {
-    const res = await fetch({
-      method: 'post',
-      url: '/login',
-      auth: { username: email, password },
+    const res = await post('/login', undefined, {
+      auth: {
+        username: email,
+        password,
+      },
     })
     return res.data
   } catch (error) {
@@ -29,9 +29,7 @@ export const login = async ({ email, password }) => {
 
 export const signup = async ({ email, password }) => {
   try {
-    const res = await fetch({
-      method: 'post',
-      url: '/signup',
+    const res = await post('/signup', {
       email,
       password,
     })

@@ -1,0 +1,33 @@
+{
+  "menu": {
+    "type": "Svg",
+    "attrs": {
+      "viewBox": "0 0 24 24",
+      "fill": "none"
+    },
+    "childs": [
+      {
+        "attrs": {
+          "id": "SVGRepo_iconCarrier"
+        },
+        "childs": [
+          {
+            "attrs": {
+              "fill": "#fff",
+              "d": "M0 0h24v24H0z"
+            },
+            "type": "Path"
+          },
+          {
+            "attrs": {
+              "d": "M6 12h12M6 15.5h12m-12-7h12",
+              "stroke": "#000"
+            },
+            "type": "Path"
+          }
+        ],
+        "type": "G"
+      }
+    ]
+  }
+}

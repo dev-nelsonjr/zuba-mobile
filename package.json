@@ -11,6 +11,7 @@
     "fix:lint": "eslint --fix --no-error-on-unmatched-pattern",
     "fix:format": "prettier --write",
     "format": "yarn fix:format 'src/**/*.{js,ts,md,json}'",
+    "icons": "yarn rn-prepare-svg --input  ./src/components/uikit/Icon/svgs --output ./src/components/uikit/Icon/map.json",
     "lint": "yarn fix:lint 'src/**/*.(js|ts|md|json)'",
     "prepare": "husky",
     "test": "yarn jest"
@@ -19,6 +20,7 @@
     "@emotion/unitless": "^0.10.0",
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-native/new-app-screen": "0.80.0",
+    "@react-navigation/drawer": "7.4.2",
     "@react-navigation/native": "^7.1.14",
     "@react-navigation/stack": "^7.4.2",
     "axios": "^1.10.0",
@@ -73,6 +75,7 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^3.6.2",
     "react-native-dotenv": "^3.4.11",
+    "react-native-prepare-svg": "^0.1.7",
     "react-test-renderer": "19.1.0",
     "typescript": "5.0.4"
   },
