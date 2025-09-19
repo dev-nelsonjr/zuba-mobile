@@ -1,25 +1,24 @@
-const js = require("@eslint/js");
-const globals = require("globals");
-const pluginReact = require("eslint-plugin-react");
-const pluginReactHooks = require("eslint-plugin-react-hooks");
-const prettierRecommended = require("eslint-plugin-prettier/recommended");
-const jsonPlugin = require("eslint-plugin-json");
-const { defineConfig } = require("eslint/config");
+const js = require('@eslint/js')
+const globals = require('globals')
+const pluginReact = require('eslint-plugin-react')
+const pluginReactHooks = require('eslint-plugin-react-hooks')
+const prettierRecommended = require('eslint-plugin-prettier/recommended')
+const { defineConfig } = require('eslint/config')
 
-const tsEslintParser = require('@typescript-eslint/parser');
-const tsEslintPlugin = require('@typescript-eslint/eslint-plugin');
-const pluginReactNative = require('eslint-plugin-react-native');
+const tsEslintParser = require('@typescript-eslint/parser')
+const tsEslintPlugin = require('@typescript-eslint/eslint-plugin')
+const pluginReactNative = require('eslint-plugin-react-native')
 
 module.exports = defineConfig([
   {
-    files: ["src/**/*.{js,jsx,ts,tsx}"],
+    files: ['src/**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
       parser: tsEslintParser,
       parserOptions: {
         ecmaVersion: 2020,
-        sourceType: "module",
+        sourceType: 'module',
         ecmaFeatures: {
-            jsx: true,
+          jsx: true,
         },
       },
       globals: {
@@ -32,10 +31,9 @@ module.exports = defineConfig([
     plugins: {
       '@typescript-eslint': tsEslintPlugin,
       react: pluginReact,
-      "react-hooks": pluginReactHooks,
-      json: jsonPlugin,
+      'react-hooks': pluginReactHooks,
       prettier: prettierRecommended.plugins.prettier,
-      "react-native": pluginReactNative,
+      'react-native': pluginReactNative,
     },
     rules: {
       ...js.configs.recommended.rules,
@@ -49,7 +47,10 @@ module.exports = defineConfig([
       'no-shadow': 'off',
       '@typescript-eslint/no-shadow': ['error'],
       'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { argsIgnorePattern: '^_' },
+      ],
 
       'react/jsx-uses-vars': 'error',
       'react/jsx-uses-react': 'error',
@@ -61,51 +62,41 @@ module.exports = defineConfig([
       'react-native/no-single-element-style-arrays': 'warn',
       'no-undef': 'error',
 
-      "comma-dangle": [
-        "error",
+      'comma-dangle': [
+        'error',
         {
-          arrays: "always-multiline",
-          objects: "always-multiline",
-          imports: "always-multiline",
-          exports: "always-multiline",
-          functions: "never",
+          arrays: 'always-multiline',
+          objects: 'always-multiline',
+          imports: 'always-multiline',
+          exports: 'always-multiline',
+          functions: 'never',
         },
       ],
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn",
-      "react/react-in-jsx-scope": "off",
-      "react/jsx-uses-react": "off",
-      "prettier/prettier": "error",
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+      'react/react-in-jsx-scope': 'off',
+      'react/jsx-uses-react': 'off',
+      'prettier/prettier': 'error',
       'react/no-unescaped-entities': 'error',
     },
     settings: {
-        react: {
-            version: 'detect',
-        },
+      react: {
+        version: 'detect',
+      },
     },
-  },
-  {
-    files: ["src/**/*.json"],
-    plugins: {
-      json: jsonPlugin,
-    },
-    rules: {
-      ...jsonPlugin.configs.recommended.rules,
-    },
-  },
-  {
-    files: ["src/**/*.md"],
   },
   {
     ignores: [
-      "node_modules/",
-      "babel.config.js",
-      "metro.config.js",
-      "jest.config.js",
-      "**/ios/**",
-      "**/android/**",
-      "coverage/",
-      "dist/",
+      'node_modules/',
+      '**/*.json',
+      '**/*.md',
+      'babel.config.js',
+      'metro.config.js',
+      'jest.config.js',
+      '**/ios/**',
+      '**/android/**',
+      'coverage/',
+      'dist/',
     ],
   },
-]);
+])
