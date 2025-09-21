@@ -11,6 +11,12 @@ const baseURL =
   process.env.CUSTOM_URL ||
   endpoints.production
 
+const auth = {}
+
+export const setToken = token => {
+  auth.token = token
+}
+
 const post = (url, data, config) => axios.post(`${baseURL}${url}`, data, config)
 
 export const login = async ({ email, password }) => {

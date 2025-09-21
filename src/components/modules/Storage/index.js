@@ -18,20 +18,22 @@ export const InMemoryStorageProvider = ({ initialStorage = {}, children }) => {
   )
 }
 
-const PersistenceProvider = ({ persistenceAdapter, children }) => {
+const PersistenceProvider = ({ onRehydrate, persistenceAdapter, children }) => {
   const [state, setState] = useContext(InMemoryStorageContext)
 
-  const onRehydrate = useCallback(async () => {
+  const rehydrate = useCallback(async () => {
     const result = await persistenceAdapter.getItem()
+    const data = await onRehydrate(result)
+
     setState({
-      ...(result && result),
+      ...(data && data),
       rehydrated: true,
     })
   }, [setState, persistenceAdapter])
 
   useEffect(() => {
-    onRehydrate()
-  }, [onRehydrate])
+    rehydrate()
+  }, [rehydrate])
 
   useEffect(() => {
     if (state?.rehydrated) {
@@ -42,14 +44,21 @@ const PersistenceProvider = ({ persistenceAdapter, children }) => {
   return children
 }
 
-export const StorageProvider = ({ persistenceAdapter, children }) => {
+export const StorageProvider = ({
+  onRehydrate,
+  persistenceAdapter,
+  children,
+}) => {
   const initialStorage = {
     rehydrated: false,
   }
 
   return (
     <InMemoryStorageProvider initialStorage={initialStorage}>
-      <PersistenceProvider persistenceAdapter={persistenceAdapter}>
+      <PersistenceProvider
+        persistenceAdapter={persistenceAdapter}
+        onRehydrate={onRehydrate}
+      >
         {children}
       </PersistenceProvider>
     </InMemoryStorageProvider>
