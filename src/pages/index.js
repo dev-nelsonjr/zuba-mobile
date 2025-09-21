@@ -1,12 +1,11 @@
+import * as React from 'react'
 import 'react-native-gesture-handler'
 
-import * as React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
-import { useAuth } from '~/components/modules/Auth/index'
-import { Icon } from '~/components/uikit'
+import { useAuth, Menu } from '~/components/'
 
 import { Login } from './Login'
 import { Signup } from './Signup'
@@ -14,8 +13,6 @@ import { Dashboard } from './Dashboard'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
-
-const DrawerIcon = () => <Icon name="dash" />
 
 const AuthStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -26,10 +23,12 @@ const AuthStack = () => (
 
 const LoggedInStack = () => (
   <Drawer.Navigator
+    drawerContent={props => <Menu {...props} />}
     screenOptions={{
       headerShown: false,
       drawerStyle: {
         backgroundColor: '#000',
+        width: 'auto',
       },
     }}
   >
@@ -37,8 +36,7 @@ const LoggedInStack = () => (
       name="/dashboard"
       component={Dashboard}
       options={{
-        drawerLabel: () => null,
-        drawerIcon: DrawerIcon,
+        drawerIcon: 'dash',
       }}
     />
   </Drawer.Navigator>

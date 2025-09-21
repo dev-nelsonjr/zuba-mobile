@@ -9,6 +9,7 @@ const baseColors = {
 }
 
 const brandColors = {
+  jet: '#2f3037',
   raisinBlack: '#16171C',
   caribbeanGreen: baseColors.green,
 }

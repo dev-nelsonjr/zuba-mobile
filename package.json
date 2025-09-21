@@ -11,7 +11,7 @@
     "fix:lint": "eslint --fix --no-error-on-unmatched-pattern --no-warn-ignored",
     "fix:format": "prettier --write",
     "format": "yarn fix:format 'src/**/*.{js,jsx,md,json}'",
-    "icons": "yarn rn-prepare-svg --input  ./src/components/uikit/Icon/svgs --output ./src/components/uikit/Icon/map.json",
+    "icons": "node ./scripts/rn-prepare-svg.cjs --input ./src/components/uikit/Icon/svgs --output ./src/components/uikit/Icon/map.json",
     "lint": "yarn fix:lint 'src/**/*.{js,jsx}'",
     "prepare": "husky",
     "test": "yarn jest"
