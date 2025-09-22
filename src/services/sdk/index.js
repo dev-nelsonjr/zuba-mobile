@@ -17,11 +17,21 @@ export const setToken = token => {
   auth.token = token
 }
 
-const post = (url, data, config) => axios.post(`${baseURL}${url}`, data, config)
+export const request = params =>
+  axios({
+    baseURL,
+    ...params,
+    headers: {
+      ...params.headers,
+      ...(auth.token && { Authorization: `Bearer ${auth.token}` }),
+    },
+  })
 
 export const login = async ({ email, password }) => {
   try {
-    const res = await post('/login', undefined, {
+    const res = await request({
+      method: 'post',
+      url: '/login',
       auth: {
         username: email,
         password,
@@ -35,9 +45,10 @@ export const login = async ({ email, password }) => {
 
 export const signup = async ({ email, password }) => {
   try {
-    const res = await post('/signup', {
-      email,
-      password,
+    const res = await request({
+      method: 'post',
+      url: '/signup',
+      data: { email, password },
     })
     return res.data
   } catch (error) {
