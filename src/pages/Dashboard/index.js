@@ -1,5 +1,8 @@
 import * as React from 'react'
 import { useState, useEffect } from 'react'
+
+import { useQuery } from '@tanstack/react-query'
+
 import { StatusBar } from 'react-native'
 import styled from '~/lib/styled-native'
 
@@ -37,16 +40,10 @@ const SectionTitle = styled(Text)`
 `
 
 export const Dashboard = () => {
-  const [data, setData] = useState([])
-
-  const getData = async () => {
-    const result = await getTransactions()
-    setData(result)
-  }
-
-  useEffect(() => {
-    getData()
-  }, [])
+  const { data, isLoading } = useQuery({
+    queryKey: ['Transactions'],
+    queryFn: getTransactions,
+  })
 
   return (
     <Screen>
@@ -59,9 +56,11 @@ export const Dashboard = () => {
           </Box>
 
           <Box p={2}>
-            {data.map(({ id, description, value }) => (
-              <Transaction key={id} title={description} value={value} />
-            ))}
+            {isLoading && <Text>loading...</Text>}
+            {!isLoading &&
+              data.map(({ id, description, value }) => (
+                <Transaction key={id} title={description} value={value} />
+              ))}
           </Box>
         </Section>
       </Box>

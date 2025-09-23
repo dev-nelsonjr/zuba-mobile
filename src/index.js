@@ -1,4 +1,5 @@
 import React from 'react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import * as ThemeModule from './components/Theme/ThemeProvider.js'
 import { StorageProvider } from './components/modules/Storage'
@@ -7,17 +8,21 @@ import * as asyncStorage from './components/modules/Storage/persistence-adapter/
 
 import { App } from './pages'
 
+const queryClient = new QueryClient()
+
 const Theme = ThemeModule.default || ThemeModule.Theme
 
 export const Main = () => {
   return (
     <Theme>
-      <StorageProvider
-        persistenceAdapter={asyncStorage}
-        onRehydrate={onRehydrateAuthMiddleware}
-      >
-        <App />
-      </StorageProvider>
+      <QueryClientProvider client={queryClient}>
+        <StorageProvider
+          persistenceAdapter={asyncStorage}
+          onRehydrate={onRehydrateAuthMiddleware}
+        >
+          <App />
+        </StorageProvider>
+      </QueryClientProvider>
     </Theme>
   )
 }
