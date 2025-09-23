@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
-import { useAuth, Menu } from '~/components/'
+import { useAuth, Menu, Header } from '~/components/'
 
 import { Login } from './Login'
 import { Signup } from './Signup'
@@ -25,7 +25,7 @@ const LoggedInStack = () => (
   <Drawer.Navigator
     drawerContent={props => <Menu {...props} />}
     screenOptions={{
-      headerShown: false,
+      header: Header,
       drawerStyle: {
         backgroundColor: '#000',
         width: 'auto',

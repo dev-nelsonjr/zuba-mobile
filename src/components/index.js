@@ -1,4 +1,4 @@
 export * from './Theme'
 export * from './uikit'
-export * from './modules'
 export * from './system'
+export * from './modules'

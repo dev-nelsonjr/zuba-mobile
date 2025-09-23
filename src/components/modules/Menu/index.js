@@ -29,7 +29,7 @@ export const Menu = ({ navigation, descriptors }) => {
             key={item.route.key}
             onPress={() => navigation.navigate(item.route.name)}
           >
-            <Icon name={item.options.drawerIcon} />
+            <Icon name={item.options.drawerIcon} width={24} height={24} />
           </Item>
         ))}
       </Item>

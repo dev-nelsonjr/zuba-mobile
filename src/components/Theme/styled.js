@@ -1,4 +1,4 @@
-import { definitions } from './definitions.js'
+import { definitions } from './definitions'
 
 const getIf = (prop, value) => (prop ? value : '')
 const getTheme = props => props.theme || definitions
