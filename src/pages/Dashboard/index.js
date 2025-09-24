@@ -1,15 +1,13 @@
 import * as React from 'react'
-import { useState, useEffect } from 'react'
-
-import { useQuery } from '@tanstack/react-query'
-
 import { StatusBar } from 'react-native'
 import styled from '~/lib/styled-native'
+import { useQuery } from '@tanstack/react-query'
+import { useNavigation } from '@react-navigation/native'
 
 import { getTransactions } from '../../components/modules'
 
 import { th } from '../../components/Theme'
-import { SafeArea, Box, Text, Icon } from '~/components/uikit'
+import { SafeArea, Box, Text, Icon, Button } from '~/components/uikit'
 import { Transaction } from '~/components/system'
 
 const Screen = ({
@@ -40,6 +38,8 @@ const SectionTitle = styled(Text)`
 `
 
 export const Dashboard = () => {
+  const navigation = useNavigation()
+
   const { data, isLoading } = useQuery({
     queryKey: ['Transactions'],
     queryFn: getTransactions,
@@ -63,6 +63,13 @@ export const Dashboard = () => {
               ))}
           </Box>
         </Section>
+      </Box>
+
+      <Box p={4}>
+        <Button
+          label="Add"
+          onPress={() => navigation.navigate('/transaction')}
+        />
       </Box>
     </Screen>
   )

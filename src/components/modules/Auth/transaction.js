@@ -13,3 +13,17 @@ export const getTransactions = async () => {
     return Promise.reject(error)
   }
 }
+
+export const saveTransactions = async data => {
+  try {
+    const response = await request({
+      method: 'POST',
+      url: '/transactions',
+      data,
+    })
+
+    return response.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}

@@ -10,6 +10,7 @@ import { useAuth, Menu, Header } from '~/components/'
 import { Login } from './Login'
 import { Signup } from './Signup'
 import { Dashboard } from './Dashboard'
+import { TransactionForm } from './Transactions'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -37,6 +38,14 @@ const LoggedInStack = () => (
       component={Dashboard}
       options={{
         drawerIcon: 'dash',
+      }}
+    />
+
+    <Drawer.Screen
+      name="/transaction"
+      component={TransactionForm}
+      options={{
+        drawerIcon: 'graph',
       }}
     />
   </Drawer.Navigator>
