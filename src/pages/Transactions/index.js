@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { StatusBar, TextInput } from 'react-native'
+import { StatusBar } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import styled from '~/lib/styled-native'
@@ -10,7 +10,14 @@ import * as yup from 'yup'
 import { saveTransactions } from '~/components/modules'
 
 import { th } from '../../components/Theme'
-import { SafeArea, Box, Text, Field, Button } from '~/components/uikit'
+import {
+  SafeArea,
+  Box,
+  Text,
+  Field,
+  Button,
+  CurrencyInput,
+} from '~/components/uikit'
 
 const validationSchema = yup.object().shape({
   value: yup.number().required(),
@@ -31,27 +38,11 @@ const Screen = ({
   </SafeArea>
 )
 
-const CurrencyContainer = styled(Box)`
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`
-
-const ValueInput = styled(TextInput)`
+const ValueInput = styled(CurrencyInput)`
+  text-align: center;
   font-size: ${th.size(10)}px;
   color: ${props => (props.value > 0 ? th.color('blue')(props) : th.color('red')(props))};
-  text-align: center;
 `
-
-const CurrencyInput = props => (
-  <CurrencyContainer>
-    <Text fontSize={10} color={Number(props.value) > 0 ? 'blue' : 'red'}>
-      R$
-    </Text>
-
-    <ValueInput {...props} />
-  </CurrencyContainer>
-)
 
 export const TransactionForm = () => {
   const navigation = useNavigation()
@@ -84,7 +75,7 @@ export const TransactionForm = () => {
   return (
     <Screen>
       <Box px={4} py={7} textAlign="center">
-        <CurrencyInput
+        <ValueInput
           keyboardType="numeric"
           placeholder="0.00"
           value={values.value}

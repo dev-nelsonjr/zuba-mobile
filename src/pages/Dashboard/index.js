@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { StatusBar } from 'react-native'
+import { StatusBar, ScrollView } from 'react-native'
 import styled from '~/lib/styled-native'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigation } from '@react-navigation/native'
@@ -18,9 +18,7 @@ const Screen = ({
 }) => (
   <SafeArea bg={bg} flex={1}>
     <StatusBar barStyle={barStyle} />
-    <Box {...props} bg={bg} flex={1}>
-      {children}
-    </Box>
+    <ScrollView {...props}>{children}</ScrollView>
   </SafeArea>
 )
 
