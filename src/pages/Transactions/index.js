@@ -3,6 +3,7 @@ import { StatusBar } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import styled from '~/lib/styled-native'
+import { mask } from 'remask'
 
 import { useFormik } from 'formik'
 import * as yup from 'yup'
@@ -68,6 +69,7 @@ export const TransactionForm = () => {
     onSubmit: formValues => mutation.mutateAsync(formValues),
     validationSchema,
     initialValues: {
+      dueDate: '08/04/2025',
       value: '',
       description: '',
     },
@@ -98,6 +100,18 @@ export const TransactionForm = () => {
           error={touched.description && errors.description}
           onChangeText={handleChange('description')}
           onBlur={handleBlur('description')}
+          disabled={isSubmitting}
+          mb={3}
+        />
+
+        <Field
+          type="text"
+          label="Expiry date"
+          placeholder="mm/dd/yyyy"
+          value={mask(values.dueDate, '99/99/9999')}
+          error={touched.dueDate && errors.dueDate}
+          onChangeText={handleChange('dueDate')}
+          onBlur={handleBlur('dueDate')}
           disabled={isSubmitting}
           mb={3}
         />

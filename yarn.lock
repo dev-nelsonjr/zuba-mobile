@@ -2197,6 +2197,11 @@
   dependencies:
     hoist-non-react-statics "^3.3.0"
 
+"@types/intl@^1.2.0":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@types/intl/-/intl-1.2.2.tgz#e39cd70968ad14b12cede5db14e558df24b33272"
+  integrity sha512-A4g5UEAA9c56JWKhc4LSJ9vzDMztjxVXDAXtVK4EbS3hW1V7Sz05VfcTgDQIvkOYJp1NqH222eg62P72HwltfQ==
+
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0", "@types/istanbul-lib-coverage@^2.0.1":
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-2.0.6.tgz#7739c232a1fee9b4d3ce8985f314c0c6d33549d7"
@@ -7365,6 +7370,13 @@ regjsparser@^0.13.0:
   integrity sha512-NgRBy2Nx/bE+9F27nVHnqcN5HjyLmecqsqx2PJHu3/IEtADD4WuxuXIVExD5PoSDFVrl78dOonfcOe5O+5nbzQ==
   dependencies:
     jsesc "~3.1.0"
+
+remask@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/remask/-/remask-1.2.2.tgz#92f64bbd02923595a7a56748000a4bbd4ac694d6"
+  integrity sha512-zUNAiG1mYewmktEKpkvcmpDeP+04CzlWtoim7C9q/dnk7tgqtHoG9GIHjCH3I9fff7O41BLqOjRuX07s/hzF7w==
+  dependencies:
+    "@types/intl" "^1.2.0"
 
 remove@^0.1.5:
   version "0.1.5"
