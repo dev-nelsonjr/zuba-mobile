@@ -39,7 +39,8 @@
     "remask": "^1.2.2",
     "remove": "^0.1.5",
     "styled-components": "^6.1.19",
-    "yup": "^1.6.1"
+    "yup": "^1.6.1",
+    "date-fns": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

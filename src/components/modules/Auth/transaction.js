@@ -1,4 +1,5 @@
 import { request } from '~/services/sdk'
+import { parse, formatISO } from 'date-fns'
 
 export const getTransactions = async () => {
   try {
@@ -14,12 +15,17 @@ export const getTransactions = async () => {
   }
 }
 
-export const saveTransactions = async data => {
+export const saveTransactions = async ({ dueDate, ...data }) => {
   try {
     const response = await request({
       method: 'POST',
       url: '/transactions',
-      data,
+      data: {
+        ...data,
+        ...(dueDate && {
+          dueDate: formatISO(parse(dueDate, 'MM/dd/yyyy', new Date())),
+        }),
+      },
     })
 
     return response.data
