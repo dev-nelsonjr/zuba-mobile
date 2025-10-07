@@ -1,97 +1,78 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Zuba Mobile
 
-# Getting Started
+Aplicativo mobile do **Zuba**, uma solução de controle financeiro pessoal. O app permite acompanhar o resumo mensal, navegar entre meses, registrar receitas e despesas e receber lembretes de vencimento.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+O projeto foi desenvolvido individualmente e faz parte de um MVP full stack composto por este aplicativo, pela [API](https://github.com/dev-nelsonjr/Zuba-api) e pela [aplicação web](https://github.com/dev-nelsonjr/Zuba-web).
 
-## Step 1: Start Metro
+## Funcionalidades
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+- Cadastro e login de usuários
+- Persistência local da sessão
+- Dashboard com receitas, despesas e saldo mensal
+- Navegação entre meses
+- Cadastro e listagem de transações
+- Notificações push com Firebase Cloud Messaging
+- Testes dos principais fluxos de autenticação
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+## Tecnologias
 
-```sh
-# Using npm
-npm start
+- React Native 0.80 e React 19
+- React Navigation
+- TanStack Query
+- Axios e AsyncStorage
+- Formik e Yup
+- styled-components e styled-system
+- React Native Firebase Messaging
+- Testing Library e Jest
 
-# OR using Yarn
+## Como executar no Android
+
+### Pré-requisitos
+
+- Node.js 18 ou superior
+- Yarn 1
+- Android Studio, Android SDK e JDK configurados
+- Emulador Android ou aparelho conectado por USB
+- [Zuba API](https://github.com/dev-nelsonjr/Zuba-api) executando na porta `9900`
+
+```bash
+git clone https://github.com/dev-nelsonjr/zuba-mobile.git
+cd zuba-mobile
+yarn
+```
+
+Crie um arquivo `.env` na raiz:
+
+```env
+NODE_ENV=development
+API_ENV=custom
+CUSTOM_URL=http://localhost:9900
+```
+
+Inicie o Metro:
+
+```bash
 yarn start
 ```
 
-## Step 2: Build and run your app
+Em outro terminal, instale e abra o aplicativo:
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
+```bash
 yarn android
 ```
 
-### iOS
+O script `preandroid` configura o redirecionamento da porta `9900` com `adb reverse`, permitindo que o Android acesse a API local.
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+## Firebase
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+As notificações utilizam Firebase Cloud Messaging. Para outro projeto Firebase, substitua a configuração Android em `android/app/google-services.json` e informe a credencial administrativa na variável `FIREBASE_SERVICE_ACCOUNT` da API.
 
-```sh
-bundle install
+## Testes
+
+```bash
+yarn test --runInBand --forceExit
 ```
 
-Then, and every time you update your native dependencies, run:
+## Status
 
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+O aplicativo está em estágio de MVP e seu fluxo principal foi validado no Android.
