@@ -1,11 +1,13 @@
 import * as React from 'react'
+import { useState } from 'react'
 import { StatusBar, ScrollView } from 'react-native'
+
 import { themeGet } from '@styled-system/theme-get'
 import styled from 'styled-components/native'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigation } from '@react-navigation/native'
 
-import { getTransactions } from '../../components/providers'
+import { getDashboard } from '~/services/sdk'
 
 import { SafeArea, Box, Text, Icon, Button } from '~/components/atoms'
 import { Transaction } from '~/components/molecules'
@@ -34,13 +36,18 @@ const SectionTitle = styled(Text)`
   font-weight: 400;
   padding: ${themeGet('space.1')}px;
 `
+const getCurrentMonth = () => {
+  const now = new Date()
+  return now.getMonth() + 1
+}
 
 export const Dashboard = () => {
   const navigation = useNavigation()
+  const [month, setMonth] = useState(getCurrentMonth)
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['Transactions'],
-    queryFn: getTransactions,
+  const { data } = useQuery({
+    queryKey: ['dashboard', month],
+    queryFn: () => getDashboard({ month: month }),
   })
 
   return (

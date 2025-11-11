@@ -9,7 +9,7 @@ import { mask } from 'remask'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 
-import { saveTransactions } from '~/components/providers'
+import { saveTransactions } from '~/services/sdk'
 
 import {
   SafeArea,
