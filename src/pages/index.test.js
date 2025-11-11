@@ -3,9 +3,9 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import axios from 'axios'
 import '@testing-library/jest-native'
 
-import { Theme } from '~/components/Theme'
-import { StorageProvider } from '~/components/modules/Storage'
-import * as asyncStorage from '~/components/modules/Storage/persistence-adapter/async-storage'
+import { Theme } from '~/components/providers/Theme'
+import { StorageProvider } from '~/components/providers/Storage'
+import * as asyncStorage from '~/components/providers/Storage/persistence-adapter/async-storage'
 
 import { App } from './'
 

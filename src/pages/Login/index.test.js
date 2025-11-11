@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 
-import { Theme } from '~/components/Theme'
+import { Theme } from '~/components/providers/Theme'
 import { Login } from '.'
 
 test('should validate and show error in email field on blur', async () => {

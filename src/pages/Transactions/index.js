@@ -2,15 +2,15 @@ import * as React from 'react'
 import { StatusBar } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import styled from '~/lib/styled-native'
+import { themeGet } from '@styled-system/theme-get'
+import styled from 'styled-components/native'
 import { mask } from 'remask'
 
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 
-import { saveTransactions } from '~/components/modules'
+import { saveTransactions } from '~/components/providers'
 
-import { th } from '../../components/Theme'
 import {
   SafeArea,
   Box,
@@ -18,7 +18,7 @@ import {
   Field,
   Button,
   CurrencyInput,
-} from '~/components/uikit'
+} from '~/components/atoms'
 
 const validationSchema = yup.object().shape({
   value: yup.number().required(),
@@ -41,8 +41,11 @@ const Screen = ({
 
 const ValueInput = styled(CurrencyInput)`
   text-align: center;
-  font-size: ${th.size(10)}px;
-  color: ${props => (props.value > 0 ? th.color('blue')(props) : th.color('red')(props))};
+  font-size: ${themeGet('fontSizes.10')}px;
+  color: ${props =>
+    props.value > 0
+      ? themeGet('colors.blue')(props)
+      : themeGet('colors.red')(props)};
 `
 
 export const TransactionForm = () => {

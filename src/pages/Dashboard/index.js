@@ -1,14 +1,14 @@
 import * as React from 'react'
 import { StatusBar, ScrollView } from 'react-native'
-import styled from '~/lib/styled-native'
+import { themeGet } from '@styled-system/theme-get'
+import styled from 'styled-components/native'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigation } from '@react-navigation/native'
 
-import { getTransactions } from '../../components/modules'
+import { getTransactions } from '../../components/providers'
 
-import { th } from '../../components/Theme'
-import { SafeArea, Box, Text, Icon, Button } from '~/components/uikit'
-import { Transaction } from '~/components/system'
+import { SafeArea, Box, Text, Icon, Button } from '~/components/atoms'
+import { Transaction } from '~/components/molecules'
 
 const Screen = ({
   bg = 'raisinBlack',
@@ -24,15 +24,15 @@ const Screen = ({
 
 const Section = styled(Box)`
   border-radius: 12px;
-  background: ${th.color('black')};
-  padding: ${th.space(4)}px;
+  background: ${themeGet('colors.black')};
+  padding: ${themeGet('space.4')}px;
 `
 const SectionTitle = styled(Text)`
-  color: ${th.color('gray')};
-  font-size: ${th.size(3)}px;
+  color: ${themeGet('colors.gray')};
+  font-size: ${themeGet('fontSizes.3')}px;
   margin: 0;
   font-weight: 400;
-  padding: ${th.space(1)}px;
+  padding: ${themeGet('space.1')}px;
 `
 
 export const Dashboard = () => {
@@ -53,13 +53,13 @@ export const Dashboard = () => {
             <SectionTitle>resumo diario</SectionTitle>
           </Box>
 
-          <Box p={2}>
+          {/* <Box p={2}>
             {isLoading && <Text>loading...</Text>}
             {!isLoading &&
               data.map(({ id, description, value }) => (
-                <Transaction key={id} title={description} value={value} />
+                <Tr ansaction key={id} title={description} value={value} />
               ))}
-          </Box>
+          </Box>*/}
         </Section>
       </Box>
 

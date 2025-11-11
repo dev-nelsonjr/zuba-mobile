@@ -2,8 +2,8 @@ import * as React from 'react'
 import { StatusBar } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
-import { SafeArea, Logo, Box, Text } from '~/components/uikit'
-import { useAuth } from '~/components/modules'
+import { SafeArea, Logo, Box, Text } from '~/components/atoms'
+import { useAuth } from '~/components/providers'
 
 import { Form } from './Form'
 import { login } from '~/services/sdk'

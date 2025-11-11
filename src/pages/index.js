@@ -5,7 +5,9 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
-import { useAuth, Menu, Header } from '~/components/'
+import { useAuth } from '~/components/providers/Auth'
+import { Menu } from '~/components/molecules/Menu'
+import { Header } from '~/components/atoms/Header'
 
 import { Login } from './Login'
 import { Signup } from './Signup'
