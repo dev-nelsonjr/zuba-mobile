@@ -54,7 +54,7 @@ export const TransactionForm = () => {
   const mutation = useMutation({
     mutationFn: saveTransactions,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['Transactions'] })
+      await queryClient.invalidateQueries({ queryKey: ['dashboard'] })
       navigation.navigate('/dashboard')
     },
   })
@@ -69,7 +69,11 @@ export const TransactionForm = () => {
     isValid,
     handleSubmit,
   } = useFormik({
-    onSubmit: formValues => mutation.mutateAsync(formValues),
+    onSubmit: (formValues, form) => {
+      const result = mutation.mutate(formValues)
+      form.resetForm()
+      return result()
+    },
     validationSchema,
     initialValues: {
       dueDate: '08/04/2025',

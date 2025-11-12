@@ -8,6 +8,18 @@ const baseColors = {
   gray: '#A0A2AE',
 }
 
+const grayscale = [
+  baseColors.black,
+  `#2d2d2d`,
+  `#4a4a4a`,
+  `#686868`,
+  `#858585`,
+  `#a3a3a3`,
+  `#c0c0c0`,
+  `#dddddd`,
+  baseColors.white,
+]
+
 const brandColors = {
   jet: '#2f3037',
   raisinBlack: '#16171C',
@@ -17,6 +29,7 @@ const brandColors = {
 const colors = {
   ...baseColors,
   ...brandColors,
+  grayscale,
 }
 
 const fontSizes = [10, 12, 14, 16, 18, 21, 24, 27, 30, 36, 42, 48]
@@ -26,4 +39,12 @@ export const definitions = {
   colors,
   fontSizes,
   space,
+  borderWidth: [0, 1, 2, 3, 4, 5],
+  borderStyles: ['solid'],
+  radii: {
+    sm: 4,
+    md: 8,
+    lg: 12,
+    full: '100%',
+  },
 }

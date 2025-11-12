@@ -5,9 +5,10 @@ import { themeGet } from '@styled-system/theme-get'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
 import { Box, Icon } from '~/components/atoms'
+import { useAuth } from '~/components/providers'
 
 const Container = styled(Box)`
-  padding: ${themeGet('spaces.2')}px;
+  padding: ${themeGet('space.2')}px;
   border-bottom-color: ${themeGet('colors.jet')};
   border-bottom-width: 1px;
 `
@@ -19,9 +20,11 @@ const Item = ({ onPress, children, ...props }) => (
 )
 
 export const Menu = ({ navigation, descriptors }) => {
+  const [, { logout }] = useAuth()
+
   return (
-    <DrawerContentScrollView>
-      <Item>
+    <>
+      <DrawerContentScrollView>
         {Object.values(descriptors).map(item => (
           <Item
             key={item.route.key}
@@ -30,7 +33,11 @@ export const Menu = ({ navigation, descriptors }) => {
             <Icon name={item.options.drawerIcon} width={24} height={24} />
           </Item>
         ))}
+      </DrawerContentScrollView>
+
+      <Item onPress={logout}>
+        <Icon name="logout" width={25} height={25} />
       </Item>
-    </DrawerContentScrollView>
+    </>
   )
 }

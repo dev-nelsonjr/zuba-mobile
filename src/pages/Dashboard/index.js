@@ -2,14 +2,12 @@ import * as React from 'react'
 import { useState } from 'react'
 import { StatusBar, ScrollView } from 'react-native'
 
-import { themeGet } from '@styled-system/theme-get'
-import styled from 'styled-components/native'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigation } from '@react-navigation/native'
 
 import { getDashboard } from '~/services/sdk'
 
-import { SafeArea, Box, Text, Icon, Button } from '~/components/atoms'
+import { SafeArea, Box, Text, Button, Card, Currency } from '~/components/atoms'
 import { Transaction } from '~/components/molecules'
 
 const Screen = ({
@@ -24,18 +22,6 @@ const Screen = ({
   </SafeArea>
 )
 
-const Section = styled(Box)`
-  border-radius: 12px;
-  background: ${themeGet('colors.black')};
-  padding: ${themeGet('space.4')}px;
-`
-const SectionTitle = styled(Text)`
-  color: ${themeGet('colors.gray')};
-  font-size: ${themeGet('fontSizes.3')}px;
-  margin: 0;
-  font-weight: 400;
-  padding: ${themeGet('space.1')}px;
-`
 const getCurrentMonth = () => {
   const now = new Date()
   return now.getMonth() + 1
@@ -43,31 +29,54 @@ const getCurrentMonth = () => {
 
 export const Dashboard = () => {
   const navigation = useNavigation()
-  const [month, setMonth] = useState(getCurrentMonth)
+  const [month] = useState(getCurrentMonth)
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['dashboard', month],
-    queryFn: () => getDashboard({ month: month }),
+    queryFn: () => getDashboard({ month }),
   })
 
   return (
     <Screen>
       <Box p={4}>
-        <Section>
-          <Box flexDirection="row" alignItems="center">
-            <Icon name="resume" width={40} height={40} />
-            {/* eslint-disable-next-line react-native/no-raw-text */}
-            <SectionTitle>resumo diario</SectionTitle>
+        <Card icon="graph" title="Monthly Balance" mb={2}>
+          <Box p={1} flexDirection="row">
+            <Box fontSize={2} color="grayscale.5" flex={1}>
+              <Text> Income </Text>
+            </Box>
+            <Currency value={data?.revenue} />
           </Box>
 
-          {/* <Box p={2}>
+          <Box p={1} flexDirection="row">
+            <Box fontSize={2} color="grayscale.5" flex={1}>
+              <Text> Expanses </Text>
+            </Box>
+            <Currency value={data?.expense} />
+          </Box>
+
+          <Box
+            px={0}
+            py={3}
+            mt={3}
+            flexDirection="row"
+            justifyContent="flex-end"
+            borderTopStyle="solid"
+            borderTopWidth={1}
+            borderTopColor="grayscale.1"
+          >
+            <Currency value={data?.balance} color="white" />
+          </Box>
+        </Card>
+
+        <Card icon="resume" title="Daily summary">
+          <Box p={2}>
             {isLoading && <Text>loading...</Text>}
             {!isLoading &&
-              data.map(({ id, description, value }) => (
-                <Tr ansaction key={id} title={description} value={value} />
+              data?.docs?.map(({ id, description, value }) => (
+                <Transaction key={id} title={description} value={value} />
               ))}
-          </Box>*/}
-        </Section>
+          </Box>
+        </Card>
       </Box>
 
       <Box p={4}>
