@@ -71,7 +71,10 @@ export const TransactionForm = () => {
   } = useFormik({
     onSubmit: (formValues, form) => {
       const result = mutation.mutate(formValues)
+
       form.resetForm()
+      navigation.goBack()
+
       return result()
     },
     validationSchema,

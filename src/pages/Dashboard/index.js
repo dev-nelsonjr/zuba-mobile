@@ -42,6 +42,12 @@ export const Dashboard = () => {
 
   return (
     <Screen>
+      <Box px={4} py={7}>
+        <Currency value={data?.total} fontSize={10} textAlign="center" />
+        <Text textAlign="center" p={2} fontSize={3} color="gray">
+          Account balance
+        </Text>
+      </Box>
       <MonthSelect value={month} onChange={setMonth} />
       <Box p={4}>
         <Card icon="graph" title="Monthly Balance" mb={2}>
@@ -65,7 +71,6 @@ export const Dashboard = () => {
             mt={3}
             flexDirection="row"
             justifyContent="flex-end"
-            borderTopStyle="solid"
             borderTopWidth={1}
             borderTopColor="grayscale.1"
           >
@@ -76,6 +81,11 @@ export const Dashboard = () => {
         <Card icon="resume" title="Daily summary">
           <Box p={2}>
             {isLoading && <Text>loading...</Text>}
+
+            {!isLoading && !data?.docs?.length && (
+              <Text>No information registered.</Text>
+            )}
+
             {!isLoading &&
               data?.docs?.map(({ id, description, value }) => (
                 <Transaction key={id} title={description} value={value} />

@@ -7,14 +7,12 @@ export const Currency = ({ value, color, ...props }) => {
   const moneyValue = Number(value || 0)
 
   return (
-    <Box {...props}>
-      <Text color={color || (moneyValue < 0 ? 'red' : 'green')}>
-        {currency.mask({
-          locale: 'en-US',
-          currency: 'USD',
-          value: moneyValue,
-        })}
-      </Text>
-    </Box>
+    <Text {...props} color={color || (moneyValue < 0 ? 'red' : 'green')}>
+      {currency.mask({
+        locale: 'en-US',
+        currency: 'USD',
+        value: moneyValue,
+      })}
+    </Text>
   )
 }
