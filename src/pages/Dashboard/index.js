@@ -5,10 +5,11 @@ import { StatusBar, ScrollView } from 'react-native'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigation } from '@react-navigation/native'
 
+import { Transaction, MonthSelect } from '~/components/molecules'
+
 import { getDashboard } from '~/services/sdk'
 
 import { SafeArea, Box, Text, Button, Card, Currency } from '~/components/atoms'
-import { Transaction } from '~/components/molecules'
 
 const Screen = ({
   bg = 'raisinBlack',
@@ -29,15 +30,19 @@ const getCurrentMonth = () => {
 
 export const Dashboard = () => {
   const navigation = useNavigation()
-  const [month] = useState(getCurrentMonth)
+  const [month, setMonth] = useState(() => new Date())
 
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard', month],
-    queryFn: () => getDashboard({ month }),
+    queryFn: () =>
+      getDashboard({
+        month: month.getMonth() + 1,
+      }),
   })
 
   return (
     <Screen>
+      <MonthSelect value={month} onChange={setMonth} />
       <Box p={4}>
         <Card icon="graph" title="Monthly Balance" mb={2}>
           <Box p={1} flexDirection="row">
