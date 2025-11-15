@@ -1,9 +1,17 @@
-import * as React from 'react'
 import 'react-native-gesture-handler'
 
+import * as React from 'react'
+import { useEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
+import {
+  getMessaging,
+  requestPermission,
+  AuthorizationStatus,
+  getToken,
+  onTokenRefresh,
+} from '@react-native-firebase/messaging'
 
 import { useAuth } from '~/components/providers/Auth'
 import { Menu } from '~/components/molecules/Menu'
@@ -53,8 +61,38 @@ const LoggedInStack = () => (
   </Drawer.Navigator>
 )
 
+async function requestUserPermission() {
+  const authStatus = await requestPermission(getMessaging())
+  const enabled =
+    authStatus === AuthorizationStatus.AUTHORIZED ||
+    authStatus === AuthorizationStatus.PROVISIONAL
+
+  console.log('Authorization status:', authStatus)
+
+  return enabled
+}
+
 export const App = () => {
   const [auth] = useAuth()
+
+  useEffect(() => {
+    const messaging = getMessaging()
+
+    const registerForNotifications = async () => {
+      const enabled = await requestUserPermission()
+
+      if (!enabled) return
+
+      const token = await getToken(messaging)
+      console.log('FCM token:', token)
+    }
+
+    registerForNotifications()
+
+    return onTokenRefresh(messaging, token => {
+      console.log('FCM token atualizado:', token)
+    })
+  }, [])
 
   return (
     <NavigationContainer>

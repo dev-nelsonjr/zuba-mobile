@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1020805899775",
+    "project_id": "zuba-6c7a3",
+    "storage_bucket": "zuba-6c7a3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1020805899775:android:48e438d61b5c9cd5aff3ca",
+        "android_client_info": {
+          "package_name": "com.zuba"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjYL6jq2a9V6IsaX8UrlFEdGmSOOU1V0g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
