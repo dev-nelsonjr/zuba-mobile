@@ -1,24 +1,39 @@
 import * as React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 
+import { NavigationContainer } from '@react-navigation/native'
+
+import { StorageProvider } from '~/components/providers/Storage'
+import * as asyncStorage from '~/components/providers/Storage/persistence-adapter/async-storage'
+import { onRehydrateAuthMiddleware } from '~/components/providers/Auth'
+
 import { Theme } from '~/components/providers/Theme'
 import { Login } from '.'
 
-test('should validate and show error in email field on blur', async () => {
-  const emailValue = 'abc'
-
-  const screen = render(
+const renderLogin = () =>
+  render(
     <Theme>
-      <Login />
+      <StorageProvider
+        persistenceAdapter={asyncStorage}
+        onRehydrate={onRehydrateAuthMiddleware}
+      >
+        <NavigationContainer>
+          <Login />
+        </NavigationContainer>
+      </StorageProvider>
     </Theme>
   )
+
+test('should validate and show error in email field on blur', async () => {
+  const emailValue = 'abc'
+  const screen = renderLogin()
 
   const emailInput = screen.getByText('E-mail')
   const submitBtn = screen.getByText('Sign In')
 
   //execute /act
-  await fireEvent.changeText(emailInput, emailValue)
-  await fireEvent.press(submitBtn)
+  fireEvent.changeText(emailInput, emailValue)
+  fireEvent.press(submitBtn)
 
   // assert
   await waitFor(() =>
@@ -27,11 +42,7 @@ test('should validate and show error in email field on blur', async () => {
 })
 
 test('should validate and show error in password field on blur', async () => {
-  const screen = render(
-    <Theme>
-      <Login />
-    </Theme>
-  )
+  const screen = renderLogin()
 
   const passwordInput = screen.getByText('Password')
   const submitBtn = screen.getByText('Sign In')
@@ -47,11 +58,7 @@ test('should validate and show error in password field on blur', async () => {
 })
 
 test('should show required field errors on submit with empty form', async () => {
-  const screen = render(
-    <Theme>
-      <Login />
-    </Theme>
-  )
+  const screen = renderLogin()
 
   const submitButton = screen.getByText('Sign In')
 
@@ -71,22 +78,18 @@ test('should re-enable form button and hide errors when form is valid', async ()
   const emailValue = 'test@test.com'
   const passwordValue = '123456'
 
-  const screen = render(
-    <Theme>
-      <Login />
-    </Theme>
-  )
+  const screen = renderLogin()
 
   const submitButton = screen.getByText('Sign In')
   const emailInput = screen.getByText('E-mail')
   const passwordInput = screen.getByText('Password')
 
   //execute /act
-  await fireEvent.press(submitButton)
+  fireEvent.press(submitButton)
 
   // Digite os valores nos campos
-  await fireEvent.changeText(emailInput, emailValue)
-  await fireEvent.changeText(passwordInput, passwordValue)
+  fireEvent.changeText(emailInput, emailValue)
+  fireEvent.changeText(passwordInput, passwordValue)
 
   await waitFor(() => {
     expect(submitButton).toBeEnabled()

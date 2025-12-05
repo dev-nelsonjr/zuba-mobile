@@ -11,3 +11,14 @@ jest.mock('@react-native-async-storage/async-storage', () =>
 );
 
 jest.mock('react-native/Libraries/Components/RefreshControl/RefreshControl', () => 'RefreshControl');
+
+jest.mock('@react-native-firebase/messaging', () => ({
+  getMessaging: jest.fn(),
+  requestPermission: jest.fn(() => Promise.resolve(1)),
+  AuthorizationStatus: {
+    AUTHORIZED: 1,
+    PROVISIONAL: 2,
+  },
+  getToken: jest.fn(() => Promise.resolve('test-fcm-token')),
+  onTokenRefresh: jest.fn(() => jest.fn()),
+}))

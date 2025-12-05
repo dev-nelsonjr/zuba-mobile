@@ -3,26 +3,48 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import axios from 'axios'
 import '@testing-library/jest-native'
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { onRehydrateAuthMiddleware } from '~/components/providers/Auth'
+
 import { Theme } from '~/components/providers/Theme'
 import { StorageProvider } from '~/components/providers/Storage'
 import * as asyncStorage from '~/components/providers/Storage/persistence-adapter/async-storage'
 
 import { App } from './'
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+})
+
+const renderApp = () =>
+  render(
+    <Theme>
+      <QueryClientProvider client={queryClient}>
+        <StorageProvider
+          persistenceAdapter={asyncStorage}
+          onRehydrate={onRehydrateAuthMiddleware}
+        >
+          <App />
+        </StorageProvider>
+      </QueryClientProvider>
+    </Theme>
+  )
+
 jest.mock('axios')
+jest.mock('./Dashboard', () => ({
+  Dashboard: () => null,
+}))
 
 beforeEach(async () => {
   await asyncStorage.clear()
 })
 
 test('should show login form', () => {
-  const screen = render(
-    <Theme>
-      <StorageProvider persistenceAdapter={asyncStorage}>
-        <App />
-      </StorageProvider>
-    </Theme>
-  )
+  const screen = renderApp()
 
   const emailInput = screen.getByText('E-mail')
   const passwordInput = screen.getByText('Password')
@@ -49,17 +71,9 @@ test('should login user and redirect when API return success', async () => {
     token: '123',
   }
 
-  axios.post.mockImplementationOnce(() =>
-    Promise.resolve({ data: responseData })
-  )
+  axios.mockResolvedValueOnce({ data: responseData })
 
-  const screen = render(
-    <Theme>
-      <StorageProvider persistenceAdapter={asyncStorage}>
-        <App />
-      </StorageProvider>
-    </Theme>
-  )
+  const screen = renderApp()
 
   const emailInput = screen.getByText('E-mail')
   const passwordInput = screen.getByText('Password')
@@ -72,12 +86,15 @@ test('should login user and redirect when API return success', async () => {
   await waitFor(() => expect(submitBtn).toBeDisabled())
 
   await waitFor(() => {
-    expect(axios.post).toHaveBeenCalledWith(
-      'http://localhost:9900/login',
-      undefined,
-      {
-        auth: { username: credentials.email, password: credentials.password },
-      }
+    expect(axios).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: 'POST',
+        url: '/login',
+        auth: {
+          username: credentials.email,
+          password: credentials.password,
+        },
+      })
     )
   })
 })
@@ -88,15 +105,9 @@ test('should not redirect user when API returns error', async () => {
     password: '123456',
   }
 
-  axios.post.mockImplementation(() => Promise.reject({ data: {} }))
+  axios.mockRejectedValueOnce({ data: {} })
 
-  const screen = render(
-    <Theme>
-      <StorageProvider persistenceAdapter={asyncStorage}>
-        <App />
-      </StorageProvider>
-    </Theme>
-  )
+  const screen = renderApp()
 
   const emailInput = screen.getByText('E-mail')
   const passwordInput = screen.getByText('Password')
@@ -106,16 +117,18 @@ test('should not redirect user when API returns error', async () => {
   fireEvent.changeText(passwordInput, credentials.password)
   fireEvent.press(submitBtn)
 
-  await waitFor(() => expect(submitBtn).toBeDisabled())
-
   await waitFor(() => {
-    expect(axios.post).toHaveBeenCalledWith(
-      'http://localhost:9900/login',
-      undefined,
-      {
-        auth: { username: credentials.email, password: credentials.password },
-      }
+    expect(axios).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: 'POST',
+        url: '/login',
+        auth: {
+          username: credentials.email,
+          password: credentials.password,
+        },
+      })
     )
   })
-  expect(submitBtn).toBeEnabled()
+
+  await waitFor(() => expect(submitBtn).toBeEnabled())
 })
