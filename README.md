@@ -29,7 +29,7 @@ O projeto foi desenvolvido individualmente e faz parte de um MVP full stack comp
 
 ### Pré-requisitos
 
-- Node.js 18 ou superior
+- Node.js 20.19.4 ou superior
 - Yarn 1
 - Android Studio, Android SDK e JDK configurados
 - Emulador Android ou aparelho conectado por USB
