@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
+import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import axios from 'axios'
 import '@testing-library/jest-native'
 
@@ -20,8 +20,8 @@ const queryClient = new QueryClient({
   },
 })
 
-const renderApp = () =>
-  render(
+const renderApp = async () => {
+  const screen = render(
     <Theme>
       <QueryClientProvider client={queryClient}>
         <StorageProvider
@@ -34,6 +34,13 @@ const renderApp = () =>
     </Theme>
   )
 
+  await act(async () => {
+    await Promise.resolve()
+  })
+
+  return screen
+}
+
 jest.mock('axios')
 jest.mock('./Dashboard', () => ({
   Dashboard: () => null,
@@ -43,8 +50,8 @@ beforeEach(async () => {
   await asyncStorage.clear()
 })
 
-test('should show login form', () => {
-  const screen = renderApp()
+test('should show login form', async () => {
+  const screen = await renderApp()
 
   const emailInput = screen.getByText('E-mail')
   const passwordInput = screen.getByText('Password')
@@ -73,7 +80,7 @@ test('should login user and redirect when API return success', async () => {
 
   axios.mockResolvedValueOnce({ data: responseData })
 
-  const screen = renderApp()
+  const screen = await renderApp()
 
   const emailInput = screen.getByText('E-mail')
   const passwordInput = screen.getByText('Password')
@@ -107,7 +114,7 @@ test('should not redirect user when API returns error', async () => {
 
   axios.mockRejectedValueOnce({ data: {} })
 
-  const screen = renderApp()
+  const screen = await renderApp()
 
   const emailInput = screen.getByText('E-mail')
   const passwordInput = screen.getByText('Password')

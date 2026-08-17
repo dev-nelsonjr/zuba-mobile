@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 import {
   getMessaging,
   requestPermission,
@@ -95,8 +96,10 @@ export const App = () => {
   }, [])
 
   return (
-    <NavigationContainer>
-      {auth?.user ? <LoggedInStack /> : <AuthStack />}
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        {auth?.user ? <LoggedInStack /> : <AuthStack />}
+      </NavigationContainer>
+    </SafeAreaProvider>
   )
 }
