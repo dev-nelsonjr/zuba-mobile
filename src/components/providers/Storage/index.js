@@ -29,7 +29,7 @@ const PersistenceProvider = ({ onRehydrate, persistenceAdapter, children }) => {
       ...(data && data),
       rehydrated: true,
     })
-  }, [setState, persistenceAdapter])
+  }, [setState, persistenceAdapter, onRehydrate])
 
   useEffect(() => {
     rehydrate()
@@ -39,7 +39,7 @@ const PersistenceProvider = ({ onRehydrate, persistenceAdapter, children }) => {
     if (state?.rehydrated) {
       persistenceAdapter.setItem(state)
     }
-  }, [JSON.stringify(state), persistenceAdapter, state.rehydrated])
+  }, [state, persistenceAdapter])
 
   return children
 }
