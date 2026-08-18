@@ -14,7 +14,7 @@
     "fix:format": "prettier --write",
     "format": "yarn fix:format 'src/**/*.{js,jsx,md,json}'",
     "icons": "node ./scripts/rn-prepare-svg.cjs --input ./src/components/atoms/Icon/svgs --output ./src/components/atoms/Icon/map.json",
-    "lint": "yarn fix:lint 'src/**/*.{js,jsx}'",
+    "lint": "eslint --no-error-on-unmatched-pattern --no-warn-ignored 'src/**/*.{js,jsx}'",
     "prepare": "husky",
     "test": "yarn jest"
   },
