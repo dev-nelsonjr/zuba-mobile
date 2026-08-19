@@ -20,6 +20,8 @@ const queryClient = new QueryClient({
   },
 })
 
+jest.useFakeTimers()
+
 const renderApp = async () => {
   const screen = render(
     <Theme>
@@ -37,6 +39,7 @@ const renderApp = async () => {
   await act(async () => {
     await Promise.resolve()
   })
+  await act(() => jest.runAllTimers())
 
   return screen
 }
