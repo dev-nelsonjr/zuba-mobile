@@ -66,7 +66,7 @@ test('should show login form', async () => {
   expect(submitBtn).toBeTruthy()
 })
 
-test('should login user and redirect when API return success', async () => {
+test('should login user, redirect and register notification token', async () => {
   const credentials = {
     email: 'n2test@gmail.com',
     password: '123456',
@@ -81,7 +81,9 @@ test('should login user and redirect when API return success', async () => {
     token: '123',
   }
 
-  axios.mockResolvedValueOnce({ data: responseData })
+  axios
+    .mockResolvedValueOnce({ data: responseData })
+    .mockResolvedValueOnce({ data: responseData.user })
 
   const screen = await renderApp()
 
@@ -103,6 +105,21 @@ test('should login user and redirect when API return success', async () => {
         auth: {
           username: credentials.email,
           password: credentials.password,
+        },
+      })
+    )
+  })
+
+  await waitFor(() => {
+    expect(axios).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: 'PUT',
+        url: '/profile',
+        data: {
+          firebaseToken: 'test-fcm-token',
+        },
+        headers: {
+          Authorization: `Bearer ${responseData.token}`,
         },
       })
     )

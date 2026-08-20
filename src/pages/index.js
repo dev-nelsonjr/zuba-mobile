@@ -17,6 +17,7 @@ import {
 import { useAuth } from '~/components/providers/Auth'
 import { Menu } from '~/components/molecules/Menu'
 import { Header } from '~/components/atoms/Header'
+import { updateProfile } from '~/services/sdk'
 
 import { Login } from './Login'
 import { Signup } from './Signup'
@@ -68,8 +69,6 @@ async function requestUserPermission() {
     authStatus === AuthorizationStatus.AUTHORIZED ||
     authStatus === AuthorizationStatus.PROVISIONAL
 
-  console.log('Authorization status:', authStatus)
-
   return enabled
 }
 
@@ -77,7 +76,11 @@ export const App = () => {
   const [auth] = useAuth()
 
   useEffect(() => {
+    if (!auth?.user) return undefined
+
     const messaging = getMessaging()
+    const updateNotificationToken = firebaseToken =>
+      updateProfile({ firebaseToken })
 
     const registerForNotifications = async () => {
       const enabled = await requestUserPermission()
@@ -85,15 +88,15 @@ export const App = () => {
       if (!enabled) return
 
       const token = await getToken(messaging)
-      console.log('FCM token:', token)
+      await updateNotificationToken(token)
     }
 
-    registerForNotifications()
+    registerForNotifications().catch(() => undefined)
 
     return onTokenRefresh(messaging, token => {
-      console.log('FCM token atualizado:', token)
+      updateNotificationToken(token).catch(() => undefined)
     })
-  }, [])
+  }, [auth?.user])
 
   return (
     <SafeAreaProvider>

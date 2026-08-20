@@ -25,3 +25,13 @@ export const signup = async ({ email, password }) => {
 
   return response.data
 }
+
+export const updateProfile = async data => {
+  const response = await request({
+    method: 'PUT',
+    url: '/profile',
+    data,
+  })
+
+  return response.data
+}
