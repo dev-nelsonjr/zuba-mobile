@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useState } from 'react'
 import { StatusBar } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
@@ -25,13 +26,16 @@ const Screen = ({
 export const Login = () => {
   const navigation = useNavigation()
   const [, { login: setAuth }] = useAuth()
+  const [error, setError] = useState(false)
 
   const onSubmit = async values => {
+    setError(false)
+
     try {
       const data = await login(values)
       setAuth(data)
-    } catch (error) {
-      console.log({ error })
+    } catch {
+      setError(true)
     }
   }
 
@@ -45,6 +49,11 @@ export const Login = () => {
         <Text fontSize={6} textAlign="center">
           Access your zuba Account
         </Text>
+        {error && (
+          <Text color="red" textAlign="center" my={2}>
+            Unable to sign in. Check your credentials.
+          </Text>
+        )}
         <Form onSubmit={onSubmit} onSignupPress={onSignupPress} />
       </Box>
 

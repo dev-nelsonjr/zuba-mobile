@@ -158,4 +158,7 @@ test('should not redirect user when API returns error', async () => {
   })
 
   await waitFor(() => expect(submitBtn).toBeEnabled())
+  expect(
+    screen.getByText('Unable to sign in. Check your credentials.')
+  ).toBeTruthy()
 })
