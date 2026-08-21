@@ -126,6 +126,47 @@ test('should login user, redirect and register notification token', async () => 
   })
 })
 
+test('should send user name when signing up', async () => {
+  const user = {
+    name: 'New User',
+    email: 'new-user@gmail.com',
+    password: '123456',
+  }
+
+  axios
+    .mockResolvedValueOnce({
+      data: {
+        user,
+        token: '123',
+      },
+    })
+    .mockResolvedValueOnce({ data: user })
+
+  const screen = await renderApp()
+
+  fireEvent.press(screen.getByText('Sign Up!'))
+
+  const nameInput = await screen.findByText('Name')
+  const emailInput = screen.getByText('E-mail')
+  const passwordInput = screen.getByText('Password')
+  const submitBtn = screen.getByText('Sign Up')
+
+  fireEvent.changeText(nameInput, user.name)
+  fireEvent.changeText(emailInput, user.email)
+  fireEvent.changeText(passwordInput, user.password)
+  fireEvent.press(submitBtn)
+
+  await waitFor(() => {
+    expect(axios).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: 'POST',
+        url: '/signup',
+        data: user,
+      })
+    )
+  })
+})
+
 test('should not redirect user when API returns error', async () => {
   const credentials = {
     email: 'error@gmail.com',

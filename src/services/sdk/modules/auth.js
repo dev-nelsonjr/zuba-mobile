@@ -13,11 +13,12 @@ export const login = async ({ email, password }) => {
   return response.data
 }
 
-export const signup = async ({ email, password }) => {
+export const signup = async ({ name, email, password }) => {
   const response = await request({
     method: 'POST',
     url: '/signup',
     data: {
+      name,
       email,
       password,
     },
