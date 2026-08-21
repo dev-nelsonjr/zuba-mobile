@@ -4,14 +4,23 @@ import { TouchableOpacity } from 'react-native'
 import { SafeArea } from '~/components/atoms/SafeArea'
 import { Box } from '~/components/atoms/Box'
 import { Icon } from '~/components/atoms/Icon'
+import { Text } from '~/components/atoms/Text'
 
-export const Header = ({ navigation, route, options, back }) => {
+export const Header = ({ navigation, options }) => {
   return (
     <SafeArea bg="raisinBlack" p={2}>
-      <Box bg="raisinBlack">
-        <TouchableOpacity onPress={navigation.toggleDrawer}>
+      <Box bg="raisinBlack" flexDirection="row" alignItems="center">
+        <TouchableOpacity
+          accessibilityRole="button"
+          accessibilityLabel="Open menu"
+          onPress={navigation.toggleDrawer}
+        >
           <Icon name="menu" width={40} height={40} />
         </TouchableOpacity>
+
+        <Text fontSize={6} ml={2}>
+          {options.title}
+        </Text>
       </Box>
     </SafeArea>
   )

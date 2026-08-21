@@ -23,16 +23,11 @@ const Screen = ({
   </SafeArea>
 )
 
-const getCurrentMonth = () => {
-  const now = new Date()
-  return now.getMonth() + 1
-}
-
 export const Dashboard = () => {
   const navigation = useNavigation()
   const [month, setMonth] = useState(() => new Date())
 
-  const { data, isLoading } = useQuery({
+  const { data, isPending, isError, refetch } = useQuery({
     queryKey: ['dashboard', month],
     queryFn: () =>
       getDashboard({
@@ -42,63 +37,88 @@ export const Dashboard = () => {
 
   return (
     <Screen>
-      <Box px={4} py={7}>
-        <Currency value={data?.total} fontSize={10} textAlign="center" />
-        <Text textAlign="center" p={2} fontSize={3} color="gray">
-          Account balance
-        </Text>
-      </Box>
       <MonthSelect value={month} onChange={setMonth} />
-      <Box p={4}>
-        <Card icon="graph" title="Monthly Balance" mb={2}>
-          <Box p={1} flexDirection="row">
-            <Box fontSize={2} color="grayscale.5" flex={1}>
-              <Text> Income </Text>
-            </Box>
-            <Currency value={data?.revenue} />
-          </Box>
-
-          <Box p={1} flexDirection="row">
-            <Box fontSize={2} color="grayscale.5" flex={1}>
-              <Text> Expanses </Text>
-            </Box>
-            <Currency value={data?.expense} />
-          </Box>
-
-          <Box
-            px={0}
-            py={3}
-            mt={3}
-            flexDirection="row"
-            justifyContent="flex-end"
-            borderTopWidth={1}
-            borderTopColor="grayscale.1"
-          >
-            <Currency value={data?.balance} color="white" />
-          </Box>
-        </Card>
-
-        <Card icon="resume" title="Daily summary">
-          <Box p={2}>
-            {isLoading && <Text>loading...</Text>}
-
-            {!isLoading && !data?.docs?.length && (
-              <Text>No information registered.</Text>
-            )}
-
-            {!isLoading &&
-              data?.docs?.map(({ id, description, value }) => (
-                <Transaction key={id} title={description} value={value} />
-              ))}
-          </Box>
-        </Card>
-      </Box>
 
       <Box p={4}>
-        <Button
-          label="Add"
-          onPress={() => navigation.navigate('/transaction')}
-        />
+        {isPending && (
+          <Card>
+            <Box p={6} alignItems="center">
+              <Text color="grayscale.5">Loading dashboard...</Text>
+            </Box>
+          </Card>
+        )}
+
+        {isError && (
+          <Card>
+            <Box p={6} alignItems="center">
+              <Text color="grayscale.5">Unable to load your dashboard.</Text>
+              <Button label="Try again" onPress={() => refetch()} mt={3} />
+            </Box>
+          </Card>
+        )}
+
+        {!isPending && !isError && (
+          <>
+            <Card mb={2}>
+              <Currency value={data?.total} fontSize={9} />
+              <Text fontSize={2} color="grayscale.5">
+                Current balance
+              </Text>
+            </Card>
+
+            <Card icon="graph" title="Monthly Balance" mb={2}>
+              <Box p={1} flexDirection="row">
+                <Box flex={1}>
+                  <Text fontSize={2} color="grayscale.5">
+                    Income
+                  </Text>
+                </Box>
+                <Currency value={data?.revenue} />
+              </Box>
+
+              <Box p={1} flexDirection="row">
+                <Box flex={1}>
+                  <Text fontSize={2} color="grayscale.5">
+                    Expenses
+                  </Text>
+                </Box>
+                <Currency value={data?.expense} />
+              </Box>
+
+              <Box
+                px={0}
+                py={3}
+                mt={3}
+                flexDirection="row"
+                justifyContent="flex-end"
+                borderTopWidth={1}
+                borderTopColor="grayscale.1"
+              >
+                <Currency value={data?.balance} color="white" />
+              </Box>
+            </Card>
+
+            <Card icon="resume" title="Transactions">
+              <Box p={2}>
+                {!data?.docs?.length && (
+                  <Text color="grayscale.5" textAlign="center" p={4}>
+                    No transactions registered for this month.
+                  </Text>
+                )}
+
+                {data?.docs?.map(({ id, description, value }) => (
+                  <Transaction key={id} title={description} value={value} />
+                ))}
+              </Box>
+            </Card>
+
+            <Button
+              label="Add"
+              onPress={() => navigation.navigate('/transaction')}
+              mt={4}
+            />
+          </>
+        )}
       </Box>
     </Screen>
   )

@@ -41,7 +41,7 @@ const LoggedInStack = () => (
       header: Header,
       drawerStyle: {
         backgroundColor: '#000',
-        width: 'auto',
+        width: 200,
       },
     }}
   >
@@ -49,7 +49,9 @@ const LoggedInStack = () => (
       name="/dashboard"
       component={Dashboard}
       options={{
+        title: 'Dashboard',
         drawerIcon: 'dash',
+        drawerLabel: 'Dashboard',
       }}
     />
 
@@ -57,7 +59,9 @@ const LoggedInStack = () => (
       name="/transaction"
       component={TransactionForm}
       options={{
+        title: 'New transaction',
         drawerIcon: 'graph',
+        drawerLabel: 'New transaction',
       }}
     />
   </Drawer.Navigator>
