@@ -16,7 +16,8 @@
     "icons": "node ./scripts/rn-prepare-svg.cjs --input ./src/components/atoms/Icon/svgs --output ./src/components/atoms/Icon/map.json",
     "lint": "eslint --no-error-on-unmatched-pattern --no-warn-ignored 'src/**/*.{js,jsx}'",
     "prepare": "husky",
-    "test": "yarn jest"
+    "test": "yarn jest",
+    "test:coverage": "yarn jest --coverage"
   },
   "dependencies": {
     "@emotion/unitless": "^0.10.0",

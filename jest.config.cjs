@@ -11,7 +11,6 @@ module.exports = {
     'node_modules/(?!(jest-)?@?react-native|@react-native-community|@react-navigation)'
   ],
 
-  collectCoverage: true,
   collectCoverageFrom: [
     "src/**/*.{js,jsx,ts,tsx}",
     "!src/**/*.test.{js,jsx,ts,tsx}",
