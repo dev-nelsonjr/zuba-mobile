@@ -28,10 +28,11 @@ export const Dashboard = () => {
   const [month, setMonth] = useState(() => new Date())
 
   const { data, isPending, isError, refetch } = useQuery({
-    queryKey: ['dashboard', month],
+    queryKey: ['dashboard', month.getFullYear(), month.getMonth() + 1],
     queryFn: () =>
       getDashboard({
         month: month.getMonth() + 1,
+        year: month.getFullYear(),
       }),
   })
 
