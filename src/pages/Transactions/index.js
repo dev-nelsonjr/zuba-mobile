@@ -9,7 +9,7 @@ import { mask } from 'remask'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 
-import { saveTransactions } from '~/services/sdk'
+import { saveTransaction } from '~/services/sdk'
 
 import {
   SafeArea,
@@ -52,7 +52,7 @@ export const TransactionForm = () => {
   const navigation = useNavigation()
   const queryClient = useQueryClient()
   const mutation = useMutation({
-    mutationFn: saveTransactions,
+    mutationFn: saveTransaction,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['dashboard'] })
       navigation.navigate('/dashboard')

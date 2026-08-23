@@ -11,27 +11,7 @@ export const getDashboard = async params => {
   return response.data
 }
 
-export const getBalance = async params => {
-  const response = await request({
-    method: 'GET',
-    url: '/balance',
-    params,
-  })
-
-  return response.data
-}
-
-export const getTransactions = async params => {
-  const response = await request({
-    method: 'GET',
-    url: '/transactions',
-    params,
-  })
-
-  return response.data
-}
-
-export const saveTransactions = async ({ dueDate, ...data }) => {
+export const saveTransaction = async ({ dueDate, ...data }) => {
   const response = await request({
     method: 'POST',
     url: '/transactions',
