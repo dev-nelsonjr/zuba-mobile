@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { type AxiosRequestConfig } from 'axios'
 
 const endpoints = {
   production: 'http://api.zuba',
@@ -7,18 +7,18 @@ const endpoints = {
 }
 
 export const baseURL =
-  endpoints[process.env.API_ENV] ||
+  endpoints[process.env.API_ENV as keyof typeof endpoints] ||
   process.env.CUSTOM_URL ||
   endpoints.production
 
-const auth = {}
+const auth: { token?: string | false } = {}
 
-export const setToken = token => {
+export const setToken = (token: string | false) => {
   auth.token = token
 }
 
-export const request = params =>
-  axios({
+export const request = <ResponseData = unknown>(params: AxiosRequestConfig) =>
+  axios<ResponseData>({
     baseURL,
     ...params,
     headers: {
