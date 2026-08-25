@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { StatusBar } from 'react-native'
+import type { ReactNode } from 'react'
+import { StatusBar, type StatusBarStyle } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { themeGet } from '@styled-system/theme-get'
@@ -10,6 +10,7 @@ import { useFormik } from 'formik'
 import * as yup from 'yup'
 
 import { saveTransaction } from '~/services/sdk'
+import type { TransactionData } from '~/services/sdk/modules/transactions'
 
 import {
   SafeArea,
@@ -25,15 +26,26 @@ const validationSchema = yup.object().shape({
   description: yup.string().required('put your description'),
 })
 
+interface TransactionFormValues extends TransactionData {
+  value: string
+  description: string
+  dueDate: string
+}
+
+interface ScreenProps {
+  bg?: string
+  barStyle?: StatusBarStyle
+  children: ReactNode
+}
+
 const Screen = ({
   bg = 'raisinBlack',
   barStyle = 'light-content',
   children,
-  ...props
-}) => (
+}: ScreenProps) => (
   <SafeArea bg={bg} flex={1}>
     <StatusBar barStyle={barStyle} />
-    <Box {...props} bg={bg} flex={1}>
+    <Box bg={bg} flex={1}>
       {children}
     </Box>
   </SafeArea>
@@ -43,7 +55,7 @@ const ValueInput = styled(CurrencyInput)`
   text-align: center;
   font-size: ${themeGet('fontSizes.10')}px;
   color: ${props =>
-    props.value > 0
+    Number(props.value) > 0
       ? themeGet('colors.blue')(props)
       : themeGet('colors.red')(props)};
 `
@@ -55,7 +67,6 @@ export const TransactionForm = () => {
     mutationFn: saveTransaction,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['dashboard'] })
-      navigation.navigate('/dashboard')
     },
   })
 
@@ -68,14 +79,11 @@ export const TransactionForm = () => {
     isSubmitting,
     isValid,
     handleSubmit,
-  } = useFormik({
-    onSubmit: (formValues, form) => {
-      const result = mutation.mutate(formValues)
-
+  } = useFormik<TransactionFormValues>({
+    onSubmit: async (formValues, form) => {
+      await mutation.mutateAsync(formValues)
       form.resetForm()
       navigation.goBack()
-
-      return result()
     },
     validationSchema,
     initialValues: {
@@ -86,7 +94,7 @@ export const TransactionForm = () => {
   })
   return (
     <Screen>
-      <Box px={4} py={7} textAlign="center">
+      <Box px={4} py={7}>
         <ValueInput
           keyboardType="numeric"
           placeholder="0.00"
@@ -98,7 +106,7 @@ export const TransactionForm = () => {
           mb={3}
         />
         <Text textAlign="center" p={2} fontSize={3} color="gray">
-          Value of {values.value > 0 ? 'receita' : 'despesa'}
+          Value of {Number(values.value) > 0 ? 'receita' : 'despesa'}
         </Text>
       </Box>
       <Box p={4}>
