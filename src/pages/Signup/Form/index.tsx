@@ -1,7 +1,13 @@
 import * as yup from 'yup'
-import { useFormik } from 'formik'
+import { useFormik, type FormikConfig } from 'formik'
 
 import { Box, Field, Button, Text } from '~/components'
+import type { SignupData } from '~/services/sdk/modules/auth'
+
+interface FormProps {
+  onSubmit: FormikConfig<SignupData>['onSubmit']
+  onSigninPress: () => void
+}
 
 const validationSchema = yup.object().shape({
   name: yup.string().required('Your name is required.'),
@@ -12,7 +18,7 @@ const validationSchema = yup.object().shape({
   password: yup.string().required('A password is required'),
 })
 
-export const Form = ({ onSubmit, onSigninPress }) => {
+export const Form = ({ onSubmit, onSigninPress }: FormProps) => {
   const {
     values,
     errors,
@@ -22,7 +28,7 @@ export const Form = ({ onSubmit, onSigninPress }) => {
     handleSubmit,
     isSubmitting,
     isValid,
-  } = useFormik({
+  } = useFormik<SignupData>({
     onSubmit,
     validationSchema,
     initialValues: {
@@ -74,11 +80,11 @@ export const Form = ({ onSubmit, onSigninPress }) => {
           label="Sign Up"
           loading={isSubmitting}
           disabled={!isValid}
-          onPress={handleSubmit}
+          onPress={() => handleSubmit()}
           m={1}
         />
 
-        <Box m={1} fontSize={1} color="gray">
+        <Box m={1}>
           <Text>
             Already have an account?{' '}
             <Text color="gray" fontWeight="bold" onPress={onSigninPress}>

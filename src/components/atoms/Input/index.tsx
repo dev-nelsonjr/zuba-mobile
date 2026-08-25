@@ -1,9 +1,15 @@
-import * as React from 'react'
-import { TextInput } from 'react-native'
+import { TextInput, type TextInputProps } from 'react-native'
 import { themeGet } from '@styled-system/theme-get'
 import styled, { css, useTheme } from 'styled-components/native'
 
-const StyledInput = styled(TextInput)`
+export interface InputProps extends TextInputProps {
+  color?: string
+  disabled?: boolean
+  hasError?: boolean
+  placeholderTextColor?: string
+}
+
+const StyledInput = styled(TextInput)<InputProps>`
   background: transparent;
   border: 1px solid #fff;
   border-radius: 200px;
@@ -27,7 +33,10 @@ const StyledInput = styled(TextInput)`
     `}
 `
 
-export const Input = ({ placeholderTextColor = 'gray', ...props }) => {
+export const Input = ({
+  placeholderTextColor = 'gray',
+  ...props
+}: InputProps) => {
   const theme = useTheme()
   const color = themeGet(
     `colors.${placeholderTextColor}`,

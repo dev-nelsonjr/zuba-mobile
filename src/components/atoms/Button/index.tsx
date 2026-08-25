@@ -1,12 +1,21 @@
-import * as React from 'react'
-import { TouchableOpacity } from 'react-native'
+import type { ReactNode } from 'react'
+import { TouchableOpacity, type TouchableOpacityProps } from 'react-native'
 import styled from 'styled-components/native'
 
-import { margin } from 'styled-system'
+import { margin, type MarginProps } from 'styled-system'
 import { themeGet } from '@styled-system/theme-get'
 import { Text } from '~/components/atoms/Text'
 
-const StyledButton = styled(TouchableOpacity)`
+type StyledButtonProps = TouchableOpacityProps & MarginProps
+
+export type ButtonProps = StyledButtonProps & {
+  color?: string
+  label: string
+  loading?: boolean
+  children?: ReactNode
+}
+
+const StyledButton = styled(TouchableOpacity)<StyledButtonProps>`
   background: ${themeGet('colors.white')};
   border: none;
   border-radius: 200px;
@@ -27,7 +36,7 @@ export const Button = ({
   loading,
   children,
   ...props
-}) => (
+}: ButtonProps) => (
   <StyledButton
     {...props}
     disabled={disabled || loading}
