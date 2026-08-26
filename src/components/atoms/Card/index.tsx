@@ -1,8 +1,9 @@
-import * as React from 'react'
-import styled from 'styled-components'
+import type { ReactNode } from 'react'
+import styled from 'styled-components/native'
 import { themeGet } from '@styled-system/theme-get'
 
 import { Box } from '~/components/atoms/Box'
+import type { BoxProps } from '~/components/atoms/Box'
 import { Text } from '~/components/atoms/Text'
 import { Icon } from '~/components/atoms/Icon'
 
@@ -27,7 +28,19 @@ const Title = styled(Text)`
   padding: ${themeGet('space.1')}px;
 `
 
-export const Card = ({ icon, title, bg = 'black', children, ...props }) => (
+interface CardProps extends Omit<BoxProps, 'children' | 'title'> {
+  icon?: string
+  title?: string
+  children?: ReactNode
+}
+
+export const Card = ({
+  icon,
+  title,
+  bg = 'black',
+  children,
+  ...props
+}: CardProps) => (
   <Container {...props} bg={bg}>
     {title && (
       <Header>

@@ -1,9 +1,13 @@
-import * as React from 'react'
-import { useState } from 'react'
-import { StatusBar, ScrollView } from 'react-native'
+import { useState, type ReactNode } from 'react'
+import {
+  StatusBar,
+  ScrollView,
+  type ScrollViewProps,
+  type StatusBarStyle,
+} from 'react-native'
 
 import { useQuery } from '@tanstack/react-query'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, type NavigationProp } from '@react-navigation/native'
 
 import { Transaction, MonthSelect } from '~/components/molecules'
 
@@ -11,12 +15,22 @@ import { getDashboard } from '~/services/sdk'
 
 import { SafeArea, Box, Text, Button, Card, Currency } from '~/components/atoms'
 
+interface DashboardRoutes {
+  '/transaction': undefined
+}
+
+interface ScreenProps extends ScrollViewProps {
+  bg?: string
+  barStyle?: StatusBarStyle
+  children: ReactNode
+}
+
 const Screen = ({
   bg = 'raisinBlack',
   barStyle = 'light-content',
   children,
   ...props
-}) => (
+}: ScreenProps) => (
   <SafeArea bg={bg} flex={1}>
     <StatusBar barStyle={barStyle} />
     <ScrollView {...props}>{children}</ScrollView>
@@ -24,7 +38,7 @@ const Screen = ({
 )
 
 export const Dashboard = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation<NavigationProp<DashboardRoutes>>()
   const [month, setMonth] = useState(() => new Date())
 
   const { data, isPending, isError, refetch } = useQuery({

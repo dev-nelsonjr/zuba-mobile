@@ -1,4 +1,3 @@
-import * as React from 'react'
 import styled from 'styled-components/native'
 
 import { themeGet } from '@styled-system/theme-get'
@@ -20,23 +19,29 @@ const Title = styled(Text)`
 const Value = styled(Box)`
   align-items: flex-end;
 `
-const Currency = styled(Text)`
+const Currency = styled(Text)<{ $negative: boolean }>`
   color: ${props =>
-    props.negative
+    props.$negative
       ? themeGet('colors.red')(props)
       : themeGet('colors.green')(props)};
 `
 
-const formatCurrency = value =>
+const formatCurrency = (value: string | number) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-    value
+    Number(value)
   )
 
-export const Transaction = ({ value, title, resolved }) => (
+interface TransactionProps {
+  value: string | number
+  title: string
+  resolved?: boolean
+}
+
+export const Transaction = ({ value, title, resolved }: TransactionProps) => (
   <Container>
     <Title>{title}</Title>
     <Value>
-      <Currency negative={value < 0}>{formatCurrency(value)}</Currency>
+      <Currency $negative={Number(value) < 0}>{formatCurrency(value)}</Currency>
       <Text>{resolved ? 'Paid' : 'Unpaid'}</Text>
     </Value>
   </Container>

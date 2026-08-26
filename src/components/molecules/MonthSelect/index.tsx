@@ -1,10 +1,14 @@
-import * as React from 'react'
 import { TouchableOpacity } from 'react-native'
 import { addMonths, format, subMonths } from 'date-fns'
 
 import { Box, Text } from '~/components/atoms'
 
-export const MonthSelect = ({ value, onChange }) => (
+interface MonthSelectProps {
+  value: Date
+  onChange: (value: Date) => void
+}
+
+export const MonthSelect = ({ value, onChange }: MonthSelectProps) => (
   <Box
     flexDirection="row"
     justifyContent="space-between"

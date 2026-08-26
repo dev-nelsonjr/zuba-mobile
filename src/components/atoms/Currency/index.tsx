@@ -1,9 +1,11 @@
-import * as React from 'react'
 import { currency } from 'remask'
-import { Box } from '~/components/atoms/Box'
-import { Text } from '~/components/atoms/Text'
+import { Text, type TextProps } from '~/components/atoms/Text'
 
-export const Currency = ({ value, color, ...props }) => {
+interface CurrencyProps extends TextProps {
+  value?: string | number | null
+}
+
+export const Currency = ({ value, color, ...props }: CurrencyProps) => {
   const moneyValue = Number(value || 0)
 
   return (
