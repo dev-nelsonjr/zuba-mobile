@@ -1,20 +1,32 @@
-import * as React from 'react'
-import { useState } from 'react'
-import { StatusBar } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { useState, type ReactNode } from 'react'
+import { StatusBar, type StatusBarStyle } from 'react-native'
+import { useNavigation, type NavigationProp } from '@react-navigation/native'
 
 import { SafeArea, Logo, Box, Text } from '~/components/atoms'
+import type { BoxProps } from '~/components/atoms/Box'
 import { useAuth } from '~/components/providers'
 
 import { Form } from './Form'
 import { signup } from '~/services/sdk'
+import type { SignupData } from '~/services/sdk/modules/auth'
+
+interface AuthRoutes {
+  '/login': undefined
+  '/signup': undefined
+}
+
+interface ScreenProps extends Omit<BoxProps, 'children'> {
+  bg?: string
+  barStyle?: StatusBarStyle
+  children: ReactNode
+}
 
 const Screen = ({
   bg = 'raisinBlack',
   barStyle = 'light-content',
   children,
   ...props
-}) => (
+}: ScreenProps) => (
   <SafeArea bg={bg} flex={1}>
     <StatusBar barStyle={barStyle} />
     <Box {...props} bg={bg} flex={1}>
@@ -24,11 +36,11 @@ const Screen = ({
 )
 
 export const Signup = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation<NavigationProp<AuthRoutes>>()
   const [, { login: setAuth }] = useAuth()
   const [error, setError] = useState(false)
 
-  const onSubmit = async values => {
+  const onSubmit = async (values: SignupData) => {
     setError(false)
 
     try {
