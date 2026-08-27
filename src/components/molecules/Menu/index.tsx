@@ -1,5 +1,8 @@
-import * as React from 'react'
-import { DrawerContentScrollView } from '@react-navigation/drawer'
+import {
+  DrawerContentScrollView,
+  type DrawerContentComponentProps,
+} from '@react-navigation/drawer'
+import { DrawerActions } from '@react-navigation/native'
 import styled from 'styled-components/native'
 import { themeGet } from '@styled-system/theme-get'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -15,7 +18,15 @@ const Item = styled(TouchableOpacity)`
   border-bottom-width: 1px;
 `
 
-export const Menu = ({ navigation, descriptors }) => {
+const routeIcons: Record<string, string> = {
+  '/dashboard': 'dash',
+  '/transaction': 'graph',
+}
+
+export const Menu = ({
+  navigation,
+  descriptors,
+}: DrawerContentComponentProps) => {
   const [, { logout }] = useAuth()
 
   return (
@@ -24,10 +35,16 @@ export const Menu = ({ navigation, descriptors }) => {
         {Object.values(descriptors).map(item => (
           <Item
             key={item.route.key}
-            onPress={() => navigation.navigate(item.route.name)}
+            onPress={() =>
+              navigation.dispatch(DrawerActions.jumpTo(item.route.name))
+            }
           >
-            <Icon name={item.options.drawerIcon} width={24} height={24} />
-            <Text ml={2}>{item.options.drawerLabel}</Text>
+            <Icon
+              name={routeIcons[item.route.name] || 'dash'}
+              width={24}
+              height={24}
+            />
+            <Text ml={2}>{item.options.title || item.route.name}</Text>
           </Item>
         ))}
       </DrawerContentScrollView>

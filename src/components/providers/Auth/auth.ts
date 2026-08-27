@@ -28,5 +28,5 @@ export const useAuth = () => {
     }))
   }
 
-  return [state.auth || {}, { login, logout }] as const
+  return [state.auth || undefined, { login, logout }] as const
 }

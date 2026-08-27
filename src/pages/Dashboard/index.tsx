@@ -14,10 +14,7 @@ import { Transaction, MonthSelect } from '~/components/molecules'
 import { getDashboard } from '~/services/sdk'
 
 import { SafeArea, Box, Text, Button, Card, Currency } from '~/components/atoms'
-
-interface DashboardRoutes {
-  '/transaction': undefined
-}
+import type { AppDrawerParamList } from '../routes'
 
 interface ScreenProps extends ScrollViewProps {
   bg?: string
@@ -38,7 +35,7 @@ const Screen = ({
 )
 
 export const Dashboard = () => {
-  const navigation = useNavigation<NavigationProp<DashboardRoutes>>()
+  const navigation = useNavigation<NavigationProp<AppDrawerParamList>>()
   const [month, setMonth] = useState(() => new Date())
 
   const { data, isPending, isError, refetch } = useQuery({

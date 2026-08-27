@@ -9,11 +9,7 @@ import { useAuth } from '~/components/providers'
 import { Form } from './Form'
 import { login } from '~/services/sdk'
 import type { Credentials } from '~/services/sdk/modules/auth'
-
-interface AuthRoutes {
-  '/login': undefined
-  '/signup': undefined
-}
+import type { AuthStackParamList } from '../routes'
 
 interface ScreenProps extends Omit<BoxProps, 'children'> {
   bg?: string
@@ -36,7 +32,7 @@ const Screen = ({
 )
 
 export const Login = () => {
-  const navigation = useNavigation<NavigationProp<AuthRoutes>>()
+  const navigation = useNavigation<NavigationProp<AuthStackParamList>>()
   const [, { login: setAuth }] = useAuth()
   const [error, setError] = useState(false)
 

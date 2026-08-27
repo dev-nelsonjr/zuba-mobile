@@ -1,6 +1,5 @@
 import 'react-native-gesture-handler'
 
-import * as React from 'react'
 import { useEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -23,9 +22,10 @@ import { Login } from './Login'
 import { Signup } from './Signup'
 import { Dashboard } from './Dashboard'
 import { TransactionForm } from './Transactions'
+import type { AppDrawerParamList, AuthStackParamList } from './routes'
 
-const Stack = createStackNavigator()
-const Drawer = createDrawerNavigator()
+const Stack = createStackNavigator<AuthStackParamList>()
+const Drawer = createDrawerNavigator<AppDrawerParamList>()
 
 const AuthStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -50,7 +50,6 @@ const LoggedInStack = () => (
       component={Dashboard}
       options={{
         title: 'Dashboard',
-        drawerIcon: 'dash',
         drawerLabel: 'Dashboard',
       }}
     />
@@ -60,7 +59,6 @@ const LoggedInStack = () => (
       component={TransactionForm}
       options={{
         title: 'New transaction',
-        drawerIcon: 'graph',
         drawerLabel: 'New transaction',
       }}
     />
@@ -83,7 +81,7 @@ export const App = () => {
     if (!auth?.user) return undefined
 
     const messaging = getMessaging()
-    const updateNotificationToken = firebaseToken =>
+    const updateNotificationToken = (firebaseToken: string) =>
       updateProfile({ firebaseToken })
 
     const registerForNotifications = async () => {
