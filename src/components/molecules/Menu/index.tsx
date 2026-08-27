@@ -8,6 +8,7 @@ import { themeGet } from '@styled-system/theme-get'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
 import { Icon, Text } from '~/components/atoms'
+import type { IconName } from '~/components/atoms/Icon'
 import { useAuth } from '~/components/providers'
 
 const Item = styled(TouchableOpacity)`
@@ -18,7 +19,7 @@ const Item = styled(TouchableOpacity)`
   border-bottom-width: 1px;
 `
 
-const routeIcons: Record<string, string> = {
+const routeIcons: Record<string, IconName> = {
   '/dashboard': 'dash',
   '/transaction': 'graph',
 }

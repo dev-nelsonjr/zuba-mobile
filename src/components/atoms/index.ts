@@ -1,5 +1,5 @@
-export * from './Logo'
 export * from './SafeArea'
+export * from './Logo'
 export * from './Box'
 export * from './Text'
 export * from './Input'

@@ -5,7 +5,7 @@ import { themeGet } from '@styled-system/theme-get'
 import { Box } from '~/components/atoms/Box'
 import type { BoxProps } from '~/components/atoms/Box'
 import { Text } from '~/components/atoms/Text'
-import { Icon } from '~/components/atoms/Icon'
+import { Icon, type IconName } from '~/components/atoms/Icon'
 
 const Container = styled(Box)`
   border-radius: ${themeGet('space.1')}px;
@@ -29,7 +29,7 @@ const Title = styled(Text)`
 `
 
 interface CardProps extends Omit<BoxProps, 'children' | 'title'> {
-  icon?: string
+  icon?: IconName
   title?: string
   children?: ReactNode
 }

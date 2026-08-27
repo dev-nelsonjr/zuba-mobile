@@ -48,3 +48,5 @@ export const definitions = {
     full: '100%',
   },
 }
+
+export type AppTheme = typeof definitions
