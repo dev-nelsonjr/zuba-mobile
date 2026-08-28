@@ -87,7 +87,7 @@ export const TransactionForm = () => {
     },
     validationSchema,
     initialValues: {
-      dueDate: '08/04/2025',
+      dueDate: '',
       value: '',
       description: '',
     },
