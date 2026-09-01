@@ -1,5 +1,3 @@
-import type { ReactNode } from 'react'
-import { StatusBar, type StatusBarStyle } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { themeGet } from '@styled-system/theme-get'
@@ -13,7 +11,7 @@ import { saveTransaction } from '~/services/sdk'
 import type { TransactionData } from '~/services/sdk/modules/transactions'
 
 import {
-  SafeArea,
+  Screen,
   Box,
   Text,
   Field,
@@ -31,25 +29,6 @@ interface TransactionFormValues extends TransactionData {
   description: string
   dueDate: string
 }
-
-interface ScreenProps {
-  bg?: string
-  barStyle?: StatusBarStyle
-  children: ReactNode
-}
-
-const Screen = ({
-  bg = 'raisinBlack',
-  barStyle = 'light-content',
-  children,
-}: ScreenProps) => (
-  <SafeArea bg={bg} flex={1}>
-    <StatusBar barStyle={barStyle} />
-    <Box bg={bg} flex={1}>
-      {children}
-    </Box>
-  </SafeArea>
-)
 
 const ValueInput = styled(CurrencyInput)`
   text-align: center;

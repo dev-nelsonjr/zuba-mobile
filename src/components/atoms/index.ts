@@ -1,4 +1,5 @@
 export * from './SafeArea'
+export * from './Screen'
 export * from './Logo'
 export * from './Box'
 export * from './Text'

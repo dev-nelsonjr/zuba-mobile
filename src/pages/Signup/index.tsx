@@ -1,35 +1,13 @@
-import { useState, type ReactNode } from 'react'
-import { StatusBar, type StatusBarStyle } from 'react-native'
+import { useState } from 'react'
 import { useNavigation, type NavigationProp } from '@react-navigation/native'
 
-import { SafeArea, Logo, Box, Text } from '~/components/atoms'
-import type { BoxProps } from '~/components/atoms/Box'
+import { Screen, Logo, Box, Text } from '~/components/atoms'
 import { useAuth } from '~/components/providers'
 
 import { Form } from './Form'
 import { signup } from '~/services/sdk'
 import type { SignupData } from '~/services/sdk/modules/auth'
 import type { AuthStackParamList } from '../routes'
-
-interface ScreenProps extends Omit<BoxProps, 'children'> {
-  bg?: string
-  barStyle?: StatusBarStyle
-  children: ReactNode
-}
-
-const Screen = ({
-  bg = 'raisinBlack',
-  barStyle = 'light-content',
-  children,
-  ...props
-}: ScreenProps) => (
-  <SafeArea bg={bg} flex={1}>
-    <StatusBar barStyle={barStyle} />
-    <Box {...props} bg={bg} flex={1}>
-      {children}
-    </Box>
-  </SafeArea>
-)
 
 export const Signup = () => {
   const navigation = useNavigation<NavigationProp<AuthStackParamList>>()
