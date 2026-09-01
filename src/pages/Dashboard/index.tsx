@@ -6,12 +6,12 @@ import {
   type StatusBarStyle,
 } from 'react-native'
 
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useNavigation, type NavigationProp } from '@react-navigation/native'
 
 import { Transaction, MonthSelect } from '~/components/molecules'
 
-import { getDashboard } from '~/services/sdk'
+import { getDashboard, updateTransaction } from '~/services/sdk'
 
 import { SafeArea, Box, Text, Button, Card, Currency } from '~/components/atoms'
 import type { AppDrawerParamList } from '../routes'
@@ -35,6 +35,7 @@ const Screen = ({
 )
 
 export const Dashboard = () => {
+  const queryClient = useQueryClient()
   const navigation = useNavigation<NavigationProp<AppDrawerParamList>>()
   const [month, setMonth] = useState(() => new Date())
 
@@ -45,6 +46,11 @@ export const Dashboard = () => {
         month: month.getMonth() + 1,
         year: month.getFullYear(),
       }),
+  })
+
+  const statusMutation = useMutation({
+    mutationFn: updateTransaction,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['dashboard'] }),
   })
 
   return (
@@ -112,15 +118,33 @@ export const Dashboard = () => {
 
             <Card icon="resume" title="Transactions">
               <Box p={2}>
+                {statusMutation.isError && (
+                  <Text color="red" textAlign="center" mb={2}>
+                    Unable to update the transaction.
+                  </Text>
+                )}
+
                 {!data?.docs?.length && (
                   <Text color="grayscale.5" textAlign="center" p={4}>
                     No transactions registered for this month.
                   </Text>
                 )}
 
-                {data?.docs?.map(({ id, description, value }) => (
-                  <Transaction key={id} title={description} value={value} />
-                ))}
+                {data?.docs?.map(
+                  ({ id, description, value, type, resolved }) => (
+                    <Transaction
+                      key={id}
+                      title={description}
+                      value={value}
+                      type={type}
+                      resolved={resolved}
+                      disabled={statusMutation.isPending}
+                      onToggle={() =>
+                        statusMutation.mutate({ id, resolved: !resolved })
+                      }
+                    />
+                  )
+                )}
               </Box>
             </Card>
 

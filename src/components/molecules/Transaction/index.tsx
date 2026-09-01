@@ -1,9 +1,11 @@
+import { TouchableOpacity } from 'react-native'
 import styled from 'styled-components/native'
 
 import { themeGet } from '@styled-system/theme-get'
-import { Box, Text } from '../../atoms'
+import { Box, Currency, Text } from '../../atoms'
+import type { TransactionType } from '~/services/sdk'
 
-const Container = styled(Box)`
+const Container = styled(TouchableOpacity)`
   flex-direction: row;
   padding: ${themeGet('space.2')}px;
   align-items: center;
@@ -19,30 +21,44 @@ const Title = styled(Text)`
 const Value = styled(Box)`
   align-items: flex-end;
 `
-const Currency = styled(Text)<{ $negative: boolean }>`
-  color: ${props =>
-    props.$negative
-      ? themeGet('colors.red')(props)
-      : themeGet('colors.green')(props)};
-`
-
-const formatCurrency = (value: string | number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-    Number(value)
-  )
 
 interface TransactionProps {
   value: string | number
   title: string
-  resolved?: boolean
+  type: TransactionType | null
+  resolved: boolean
+  disabled?: boolean
+  onToggle: () => void
 }
 
-export const Transaction = ({ value, title, resolved }: TransactionProps) => (
-  <Container>
+export const Transaction = ({
+  value,
+  title,
+  type,
+  resolved,
+  disabled,
+  onToggle,
+}: TransactionProps) => (
+  <Container
+    disabled={disabled}
+    activeOpacity={0.7}
+    accessibilityRole="button"
+    accessibilityState={{ disabled, selected: resolved }}
+    accessibilityLabel={`Mark ${title} as ${resolved ? 'pending' : 'resolved'}`}
+    onPress={onToggle}
+  >
     <Title>{title}</Title>
     <Value>
-      <Currency $negative={Number(value) < 0}>{formatCurrency(value)}</Currency>
-      <Text>{resolved ? 'Paid' : 'Unpaid'}</Text>
+      <Currency value={value} />
+      <Text>
+        {resolved
+          ? type === 'revenue'
+            ? 'Received'
+            : type === 'expense'
+              ? 'Paid'
+              : 'Resolved'
+          : 'Pending'}
+      </Text>
     </Value>
   </Container>
 )

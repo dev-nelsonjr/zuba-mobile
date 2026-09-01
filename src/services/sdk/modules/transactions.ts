@@ -33,6 +33,11 @@ export interface TransactionData {
   type?: TransactionType
 }
 
+export interface TransactionUpdate {
+  id: string
+  resolved: boolean
+}
+
 export const getDashboard = async (params: DashboardPeriod) => {
   const response = await request<Dashboard>({
     method: 'GET',
@@ -56,6 +61,16 @@ export const saveTransaction = async ({
         dueDate: formatISO(parse(dueDate, 'MM/dd/yyyy', new Date())),
       }),
     },
+  })
+
+  return response.data
+}
+
+export const updateTransaction = async ({ id, ...data }: TransactionUpdate) => {
+  const response = await request<{ count: number }>({
+    method: 'PUT',
+    url: `/transactions/${id}`,
+    data,
   })
 
   return response.data
