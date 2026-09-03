@@ -75,3 +75,12 @@ export const updateTransaction = async ({ id, ...data }: TransactionUpdate) => {
 
   return response.data
 }
+
+export const deleteTransaction = async (id: string) => {
+  const response = await request<{ id: string }>({
+    method: 'DELETE',
+    url: `/transactions/${id}`,
+  })
+
+  return response.data
+}

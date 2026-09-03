@@ -11,7 +11,11 @@ import { useNavigation, type NavigationProp } from '@react-navigation/native'
 
 import { Transaction, MonthSelect } from '~/components/molecules'
 
-import { getDashboard, updateTransaction } from '~/services/sdk'
+import {
+  deleteTransaction,
+  getDashboard,
+  updateTransaction,
+} from '~/services/sdk'
 
 import { SafeArea, Box, Text, Button, Card, Currency } from '~/components/atoms'
 import type { AppDrawerParamList } from '../routes'
@@ -48,9 +52,17 @@ export const Dashboard = () => {
       }),
   })
 
+  const refreshDashboard = () =>
+    queryClient.invalidateQueries({ queryKey: ['dashboard'] })
+
   const statusMutation = useMutation({
     mutationFn: updateTransaction,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['dashboard'] }),
+    onSuccess: refreshDashboard,
+  })
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteTransaction,
+    onSuccess: refreshDashboard,
   })
 
   return (
@@ -118,9 +130,9 @@ export const Dashboard = () => {
 
             <Card icon="resume" title="Transactions">
               <Box p={2}>
-                {statusMutation.isError && (
+                {(statusMutation.isError || deleteMutation.isError) && (
                   <Text color="red" textAlign="center" mb={2}>
-                    Unable to update the transaction.
+                    Unable to save the transaction change.
                   </Text>
                 )}
 
@@ -138,10 +150,13 @@ export const Dashboard = () => {
                       value={value}
                       type={type}
                       resolved={resolved}
-                      disabled={statusMutation.isPending}
+                      disabled={
+                        statusMutation.isPending || deleteMutation.isPending
+                      }
                       onToggle={() =>
                         statusMutation.mutate({ id, resolved: !resolved })
                       }
+                      onDelete={() => deleteMutation.mutate(id)}
                     />
                   )
                 )}

@@ -3,8 +3,9 @@ import { fireEvent, render, screen } from '@testing-library/react-native'
 import { Theme } from '~/components/providers/Theme'
 import { Transaction } from '.'
 
-test('should allow a pending transaction to be resolved', () => {
+test('should expose transaction actions', () => {
   const onToggle = jest.fn()
+  const onDelete = jest.fn()
 
   render(
     <Theme>
@@ -14,6 +15,7 @@ test('should allow a pending transaction to be resolved', () => {
         type="expense"
         resolved={false}
         onToggle={onToggle}
+        onDelete={onDelete}
       />
     </Theme>
   )
@@ -27,4 +29,10 @@ test('should allow a pending transaction to be resolved', () => {
   )
 
   expect(onToggle).toHaveBeenCalledTimes(1)
+
+  fireEvent.press(
+    screen.getByRole('button', { name: 'Delete Electricity bill' })
+  )
+
+  expect(onDelete).toHaveBeenCalledTimes(1)
 })
