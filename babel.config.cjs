@@ -3,6 +3,6 @@ module.exports = {
   plugins: [
     ['inline-dotenv'],
     ['module-resolver', { alias: { '~': './src', '@': '.' } }],
-    'react-native-reanimated/plugin',
+    'react-native-worklets/plugin',
   ],
 }
