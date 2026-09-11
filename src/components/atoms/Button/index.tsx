@@ -1,5 +1,9 @@
 import type { ReactNode } from 'react'
-import { TouchableOpacity, type TouchableOpacityProps } from 'react-native'
+import {
+  ActivityIndicator,
+  TouchableOpacity,
+  type TouchableOpacityProps,
+} from 'react-native'
 import styled from 'styled-components/native'
 
 import { margin, type MarginProps } from 'styled-system'
@@ -41,9 +45,16 @@ export const Button = ({
     {...props}
     disabled={disabled || loading}
     accessibilityRole="button"
+    accessibilityLabel={label}
+    accessibilityState={{ disabled: disabled || loading, busy: loading }}
   >
-    {/*loading ? <Spinner/> : children*/}
-    <Text color={color}>{label}</Text>
-    {children}
+    {loading ? (
+      <ActivityIndicator color="#000000" accessibilityLabel="Loading" />
+    ) : (
+      <>
+        <Text color={color}>{label}</Text>
+        {children}
+      </>
+    )}
   </StyledButton>
 )

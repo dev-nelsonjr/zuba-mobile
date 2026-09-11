@@ -29,7 +29,7 @@ test('should validate and show error in email field on blur', async () => {
   const screen = renderLogin()
 
   const emailInput = screen.getByText('E-mail')
-  const submitBtn = screen.getByText('Sign In')
+  const submitBtn = screen.getByRole('button', { name: 'Sign In' })
 
   //execute /act
   fireEvent.changeText(emailInput, emailValue)
@@ -45,7 +45,7 @@ test('should validate and show error in password field on blur', async () => {
   const screen = renderLogin()
 
   const passwordInput = screen.getByText('Password')
-  const submitBtn = screen.getByText('Sign In')
+  const submitBtn = screen.getByRole('button', { name: 'Sign In' })
 
   //execute /act
   fireEvent.changeText(passwordInput, '')
@@ -60,7 +60,7 @@ test('should validate and show error in password field on blur', async () => {
 test('should show required field errors on submit with empty form', async () => {
   const screen = renderLogin()
 
-  const submitButton = screen.getByText('Sign In')
+  const submitButton = screen.getByRole('button', { name: 'Sign In' })
 
   //execute /act
   await waitFor(() => fireEvent.press(submitButton))
@@ -80,7 +80,7 @@ test('should re-enable form button and hide errors when form is valid', async ()
 
   const screen = renderLogin()
 
-  const submitButton = screen.getByText('Sign In')
+  const submitButton = screen.getByRole('button', { name: 'Sign In' })
   const emailInput = screen.getByText('E-mail')
   const passwordInput = screen.getByText('Password')
 

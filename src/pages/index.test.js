@@ -57,7 +57,7 @@ test('should show login form', async () => {
 
   const emailInput = screen.getByText('E-mail')
   const passwordInput = screen.getByText('Password')
-  const submitBtn = screen.getByText('Sign In')
+  const submitBtn = screen.getByRole('button', { name: 'Sign In' })
 
   expect(emailInput).toBeTruthy()
   expect(passwordInput).toBeTruthy()
@@ -88,7 +88,7 @@ test('should login user, redirect and register notification token', async () => 
 
   const emailInput = screen.getByText('E-mail')
   const passwordInput = screen.getByText('Password')
-  const submitBtn = screen.getByText('Sign In')
+  const submitBtn = screen.getByRole('button', { name: 'Sign In' })
 
   fireEvent.changeText(emailInput, credentials.email)
   fireEvent.changeText(passwordInput, credentials.password)
@@ -148,7 +148,7 @@ test('should send user name when signing up', async () => {
   const nameInput = await screen.findByText('Name')
   const emailInput = screen.getByText('E-mail')
   const passwordInput = screen.getByText('Password')
-  const submitBtn = screen.getByText('Sign Up')
+  const submitBtn = screen.getByRole('button', { name: 'Sign Up' })
 
   fireEvent.changeText(nameInput, user.name)
   fireEvent.changeText(emailInput, user.email)
@@ -178,7 +178,7 @@ test('should not redirect user when API returns error', async () => {
 
   const emailInput = screen.getByText('E-mail')
   const passwordInput = screen.getByText('Password')
-  const submitBtn = screen.getByText('Sign In')
+  const submitBtn = screen.getByRole('button', { name: 'Sign In' })
 
   fireEvent.changeText(emailInput, credentials.email)
   fireEvent.changeText(passwordInput, credentials.password)
