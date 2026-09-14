@@ -36,6 +36,16 @@ const renderTransaction = queryClient =>
     </Theme>
   )
 
+const createQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      mutations: {
+        retry: false,
+        gcTime: Infinity,
+      },
+    },
+  })
+
 beforeEach(() => {
   jest.clearAllMocks()
 })
@@ -45,13 +55,7 @@ test('should wait for transaction creation before returning', async () => {
   const request = new Promise(resolve => {
     resolveRequest = resolve
   })
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      mutations: {
-        gcTime: Infinity,
-      },
-    },
-  })
+  const queryClient = createQueryClient()
   const invalidateQueries = jest.spyOn(queryClient, 'invalidateQueries')
 
   axios.mockReturnValueOnce(request)
@@ -90,6 +94,32 @@ test('should wait for transaction creation before returning', async () => {
     })
     expect(mockGoBack).toHaveBeenCalledTimes(1)
   })
+
+  screen.unmount()
+  queryClient.clear()
+})
+
+test('should keep form values and show error when transaction fails', async () => {
+  axios.mockRejectedValueOnce(new Error('Request failed'))
+  const queryClient = createQueryClient()
+  const screen = renderTransaction(queryClient)
+
+  fireEvent.changeText(screen.getByPlaceholderText('0.00'), '100')
+  fireEvent.changeText(
+    screen.getByPlaceholderText('Describe the transaction'),
+    'Salary'
+  )
+  fireEvent.press(screen.getByRole('button', { name: 'Save' }))
+
+  expect(
+    await screen.findByText(
+      'Unable to save the transaction. Check the fields and try again.'
+    )
+  ).toBeTruthy()
+  expect(
+    screen.getByPlaceholderText('Describe the transaction').props.value
+  ).toBe('Salary')
+  expect(mockGoBack).not.toHaveBeenCalled()
 
   screen.unmount()
   queryClient.clear()

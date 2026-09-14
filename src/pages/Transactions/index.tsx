@@ -60,9 +60,13 @@ export const TransactionForm = () => {
     handleSubmit,
   } = useFormik<TransactionFormValues>({
     onSubmit: async (formValues, form) => {
-      await mutation.mutateAsync(formValues)
-      form.resetForm()
-      navigation.goBack()
+      try {
+        await mutation.mutateAsync(formValues)
+        form.resetForm()
+        navigation.goBack()
+      } catch {
+        return
+      }
     },
     validationSchema,
     initialValues: {
@@ -120,6 +124,12 @@ export const TransactionForm = () => {
           onPress={handleSubmit}
           m={1}
         />
+
+        {mutation.isError && (
+          <Text color="red" textAlign="center" mt={3} accessibilityRole="alert">
+            Unable to save the transaction. Check the fields and try again.
+          </Text>
+        )}
       </Box>
     </Screen>
   )
