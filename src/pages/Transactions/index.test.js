@@ -124,3 +124,28 @@ test('should keep form values and show error when transaction fails', async () =
   screen.unmount()
   queryClient.clear()
 })
+
+test('should reject an invalid due date', async () => {
+  const queryClient = createQueryClient()
+  const screen = renderTransaction(queryClient)
+
+  fireEvent.changeText(screen.getByPlaceholderText('0.00'), '100')
+  fireEvent.changeText(
+    screen.getByPlaceholderText('Describe the transaction'),
+    'Salary'
+  )
+
+  const dueDate = screen.getByPlaceholderText('mm/dd/yyyy')
+  fireEvent.changeText(dueDate, '02/30/2026')
+  fireEvent(dueDate, 'blur', {
+    persist: jest.fn(),
+    target: {},
+  })
+
+  expect(await screen.findByText('Enter a valid date')).toBeTruthy()
+  expect(screen.getByRole('button', { name: 'Save' })).toBeDisabled()
+  expect(axios).not.toHaveBeenCalled()
+
+  screen.unmount()
+  queryClient.clear()
+})
