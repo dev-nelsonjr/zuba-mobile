@@ -10,7 +10,7 @@ interface FormProps {
 }
 
 const validationSchema = yup.object().shape({
-  name: yup.string().required('Your name is required.'),
+  name: yup.string().required('Name is required'),
   email: yup
     .string()
     .required('Email is required')
@@ -42,7 +42,7 @@ export const Form = ({ onSubmit, onSigninPress }: FormProps) => {
       <Field
         type="text"
         label="Name"
-        placeholder="Enter your email"
+        placeholder="Enter your name"
         value={values.name}
         error={touched.name && errors.name}
         onChangeText={handleChange('name')}
@@ -53,7 +53,7 @@ export const Form = ({ onSubmit, onSigninPress }: FormProps) => {
 
       <Field
         type="text"
-        label="E-mail"
+        label="Email"
         placeholder="Enter your email"
         value={values.email}
         error={touched.email && errors.email}
@@ -77,7 +77,7 @@ export const Form = ({ onSubmit, onSigninPress }: FormProps) => {
 
       <Box center>
         <Button
-          label="Sign Up"
+          label="Create account"
           loading={isSubmitting}
           disabled={!isValid}
           onPress={() => handleSubmit()}
@@ -88,7 +88,7 @@ export const Form = ({ onSubmit, onSigninPress }: FormProps) => {
           <Text>
             Already have an account?{' '}
             <Text color="gray" fontWeight="bold" onPress={onSigninPress}>
-              Sign In!
+              Sign in
             </Text>
           </Text>
         </Box>

@@ -135,14 +135,14 @@ test('should reject an invalid due date', async () => {
     'Salary'
   )
 
-  const dueDate = screen.getByPlaceholderText('mm/dd/yyyy')
+  const dueDate = screen.getByPlaceholderText('MM/DD/YYYY')
   fireEvent.changeText(dueDate, '02/30/2026')
   fireEvent(dueDate, 'blur', {
     persist: jest.fn(),
     target: {},
   })
 
-  expect(await screen.findByText('Enter a valid date')).toBeTruthy()
+  expect(await screen.findByText('Enter a valid due date')).toBeTruthy()
   expect(screen.getByRole('button', { name: 'Save' })).toBeDisabled()
   expect(axios).not.toHaveBeenCalled()
 

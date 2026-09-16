@@ -33,7 +33,7 @@ export const Login = () => {
 
       <Box flex={1}>
         <Text fontSize={6} textAlign="center">
-          Access your zuba Account
+          Sign in to your Zuba account
         </Text>
         {error && (
           <Text color="red" textAlign="center" my={2}>

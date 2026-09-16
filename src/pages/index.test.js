@@ -55,7 +55,7 @@ beforeEach(async () => {
 test('should show login form', async () => {
   const screen = await renderApp()
 
-  const emailInput = screen.getByText('E-mail')
+  const emailInput = screen.getByText('Email')
   const passwordInput = screen.getByText('Password')
   const submitBtn = screen.getByRole('button', { name: 'Sign In' })
 
@@ -65,7 +65,7 @@ test('should show login form', async () => {
   expect(submitBtn).toBeTruthy()
 })
 
-test('should login user, redirect and register notification token', async () => {
+test('should sign in, redirect and register the notification token', async () => {
   const credentials = {
     email: 'n2test@gmail.com',
     password: '123456',
@@ -86,7 +86,7 @@ test('should login user, redirect and register notification token', async () => 
 
   const screen = await renderApp()
 
-  const emailInput = screen.getByText('E-mail')
+  const emailInput = screen.getByText('Email')
   const passwordInput = screen.getByText('Password')
   const submitBtn = screen.getByRole('button', { name: 'Sign In' })
 
@@ -125,7 +125,7 @@ test('should login user, redirect and register notification token', async () => 
   })
 })
 
-test('should send user name when signing up', async () => {
+test("should include the user's name when signing up", async () => {
   const user = {
     name: 'New User',
     email: 'new-user@gmail.com',
@@ -143,10 +143,10 @@ test('should send user name when signing up', async () => {
 
   const screen = await renderApp()
 
-  fireEvent.press(screen.getByText('Sign Up!'))
+  fireEvent.press(screen.getByText('Sign up'))
 
   const nameInput = await screen.findByText('Name')
-  const emailInput = screen.getByText('E-mail')
+  const emailInput = screen.getByText('Email')
   const passwordInput = screen.getByText('Password')
   const submitBtn = screen.getByRole('button', { name: 'Sign Up' })
 
@@ -166,7 +166,7 @@ test('should send user name when signing up', async () => {
   })
 })
 
-test('should not redirect user when API returns error', async () => {
+test('should not redirect when the API returns an error', async () => {
   const credentials = {
     email: 'error@gmail.com',
     password: '123456',
@@ -176,7 +176,7 @@ test('should not redirect user when API returns error', async () => {
 
   const screen = await renderApp()
 
-  const emailInput = screen.getByText('E-mail')
+  const emailInput = screen.getByText('Email')
   const passwordInput = screen.getByText('Password')
   const submitBtn = screen.getByRole('button', { name: 'Sign In' })
 

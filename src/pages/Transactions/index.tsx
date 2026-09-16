@@ -21,11 +21,14 @@ import {
 } from '~/components/atoms'
 
 const validationSchema = yup.object().shape({
-  value: yup.number().required(),
-  description: yup.string().required('put your description'),
+  value: yup
+    .number()
+    .typeError('Enter a valid transaction value')
+    .required('Transaction value is required'),
+  description: yup.string().required('Description is required'),
   dueDate: yup.string().test({
     name: 'valid-date',
-    message: 'Enter a valid date',
+    message: 'Enter a valid due date',
     test: value =>
       !value ||
       (value.length === 10 &&
@@ -98,7 +101,7 @@ export const TransactionForm = () => {
           mb={3}
         />
         <Text textAlign="center" p={2} fontSize={3} color="gray">
-          Value of {Number(values.value) > 0 ? 'receita' : 'despesa'}
+          {Number(values.value) > 0 ? 'Income amount' : 'Expense amount'}
         </Text>
       </Box>
       <Box p={4}>
@@ -116,8 +119,8 @@ export const TransactionForm = () => {
 
         <Field
           type="text"
-          label="Expiry date"
-          placeholder="mm/dd/yyyy"
+          label="Due date"
+          placeholder="MM/DD/YYYY"
           value={mask(values.dueDate, '99/99/9999')}
           error={touched.dueDate && errors.dueDate}
           onChangeText={handleChange('dueDate')}

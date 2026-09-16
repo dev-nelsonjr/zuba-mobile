@@ -132,13 +132,13 @@ export const Dashboard = () => {
               <Box p={2}>
                 {(statusMutation.isError || deleteMutation.isError) && (
                   <Text color="red" textAlign="center" mb={2}>
-                    Unable to save the transaction change.
+                    Unable to update the transaction.
                   </Text>
                 )}
 
                 {!data?.docs?.length && (
                   <Text color="grayscale.5" textAlign="center" p={4}>
-                    No transactions registered for this month.
+                    No transactions for this month.
                   </Text>
                 )}
 

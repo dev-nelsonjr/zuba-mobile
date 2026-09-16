@@ -53,7 +53,7 @@ export const Form = ({ onSubmit, onSignupPress }: FormProps) => {
     <>
       <Field
         type="text"
-        label="E-mail"
+        label="Email"
         placeholder="Enter your email"
         value={values.email}
         error={touched.email && errors.email}
@@ -94,7 +94,7 @@ export const Form = ({ onSubmit, onSignupPress }: FormProps) => {
           <Text>
             Don&apos;t have an account?{' '}
             <Text color="gray" fontWeight="bold" onPress={onSignupPress}>
-              Sign Up!
+              Sign up
             </Text>
           </Text>
         </Box>
