@@ -148,7 +148,7 @@ test("should include the user's name when signing up", async () => {
   const nameInput = await screen.findByText('Name')
   const emailInput = screen.getByText('Email')
   const passwordInput = screen.getByText('Password')
-  const submitBtn = screen.getByRole('button', { name: 'Sign Up' })
+  const submitBtn = screen.getByRole('button', { name: 'Create account' })
 
   fireEvent.changeText(nameInput, user.name)
   fireEvent.changeText(emailInput, user.email)
