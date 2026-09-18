@@ -132,7 +132,7 @@ export const Dashboard = () => {
               <Box p={2}>
                 {(statusMutation.isError || deleteMutation.isError) && (
                   <Text color="red" textAlign="center" mb={2}>
-                    Unable to update the transaction.
+                    Unable to complete this action. Please try again.
                   </Text>
                 )}
 
