@@ -1,6 +1,6 @@
 # Zuba Mobile
 
-Aplicativo Android do **Zuba**, um MVP de controle financeiro pessoal. O app mantém o fluxo principal da aplicação Web e adiciona lembretes de vencimento por notificação push.
+Aplicativo Android do **Zuba**, uma aplicação de planejamento de fluxo de caixa pessoal. O usuário cadastra receitas e despesas previstas, acompanha o saldo mensal, atualiza cada transação como recebida ou paga e recebe lembretes de vencimento por notificação push.
 
 O projeto foi desenvolvido individualmente e integra a [API](https://github.com/dev-nelsonjr/Zuba-api) e a [aplicação web](https://github.com/dev-nelsonjr/Zuba-web).
 
@@ -8,11 +8,12 @@ O projeto foi desenvolvido individualmente e integra a [API](https://github.com/
 
 - Cadastro e login
 - Sessão autenticada com persistência no dispositivo
-- Dashboard de receitas, despesas e saldo mensal
+- Dashboard de receitas, despesas e saldo mensal previsto
 - Navegação entre meses e anos
-- Cadastro de receitas e despesas
+- Cadastro de receitas e despesas previstas
 - Definição de data de vencimento
-- Alteração do status entre pendente e concluída
+- Status inicial pendente
+- Marcação de receitas como recebidas e despesas como pagas
 - Exclusão de transações
 - Estados de carregamento, vazio e erro
 - Menu lateral e navegação adaptados ao mobile
@@ -107,4 +108,4 @@ yarn android
 
 ## Escopo do MVP
 
-O cliente Mobile cobre autenticação, gerenciamento mensal de transações e notificações no Android. Distribuição pelas lojas, recuperação de senha, categorias e suporte validado ao iOS permanecem como evoluções futuras.
+O cliente Mobile cobre autenticação, planejamento mensal de receitas e despesas e notificações no Android. Distribuição pelas lojas, recuperação de senha, categorias e suporte validado ao iOS permanecem como evoluções futuras.
